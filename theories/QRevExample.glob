@@ -1,0 +1,81 @@
+DIGEST 568e7c66743bf14eab65e4ea09ef71cc
+FQRevExample
+R24:33 Coq.extraction.Extraction <> <> lib
+R60:63 Coq.Lists.List <> <> lib
+R123:128 Hammer.Plugin.Hammer <> <> lib
+R158:165 Hammer.Tactics.Reconstr <> <> lib
+R228:243 Cpdt.CpdtTactics <> <> lib
+R278:287 Coq.Lists.List <> rev_append def
+def 412:415 <> qrev
+R434:437 Coq.Init.Datatypes <> list ind
+R439:439 QRevExample <> A var
+R445:454 Coq.Lists.List <> rev_append def
+R459:461 Coq.Init.Datatypes <> nil constr
+R456:457 QRevExample <> xs var
+R471:474 QRevExample <> qrev def
+ind 1233:1238 <> mylist
+constr 1264:1266 <> nil
+constr 1282:1285 <> cons
+R1270:1275 QRevExample <> mylist ind
+R1277:1277 QRevExample <> A var
+R1290:1293 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1302:1305 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1306:1311 QRevExample <> mylist ind
+R1313:1313 QRevExample <> A var
+R1294:1299 QRevExample <> mylist ind
+R1301:1301 QRevExample <> A var
+R1289:1289 QRevExample <> A var
+R1326:1328 QRevExample <> nil constr
+R1326:1328 QRevExample <> nil constr
+R1354:1357 QRevExample <> cons constr
+R1354:1357 QRevExample <> cons constr
+R1391:1394 QRevExample <> cons constr
+not 1383:1383 <> :::x_'::'_x
+def 1444:1446 <> app
+R1469:1472 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1481:1484 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1485:1490 QRevExample <> mylist ind
+R1492:1492 QRevExample <> A var
+R1473:1478 QRevExample <> mylist ind
+R1480:1480 QRevExample <> A var
+R1461:1466 QRevExample <> mylist ind
+R1468:1468 QRevExample <> A var
+R1522:1522 QRevExample <> l var
+R1534:1536 QRevExample <> nil constr
+R1541:1541 QRevExample <> m var
+R1548:1551 QRevExample <> cons constr
+R1561:1564 QRevExample <> cons constr
+R1569:1571 QRevExample <> app var
+R1576:1576 QRevExample <> m var
+def 1596:1598 <> rev
+R1616:1621 QRevExample <> mylist ind
+R1623:1623 QRevExample <> A var
+R1628:1633 QRevExample <> mylist ind
+R1635:1635 QRevExample <> A var
+R1648:1648 QRevExample <> l var
+R1661:1663 QRevExample <> nil constr
+R1668:1670 QRevExample <> nil constr
+R1678:1681 QRevExample <> cons constr
+R1691:1693 QRevExample <> app def
+R1705:1708 QRevExample <> cons constr
+R1712:1714 QRevExample <> nil constr
+R1696:1698 QRevExample <> rev def
+def 1736:1745 <> rev_append
+R1765:1770 QRevExample <> mylist ind
+R1772:1772 QRevExample <> A var
+R1777:1782 QRevExample <> mylist ind
+R1784:1784 QRevExample <> A var
+R1799:1799 QRevExample <> l var
+R1814:1816 QRevExample <> nil constr
+R1821:1822 QRevExample <> l' var
+R1833:1834 QRevExample <> :::x_'::'_x not
+R1840:1849 QRevExample <> rev_append def
+R1855:1856 QRevExample <> :::x_'::'_x not
+R1857:1858 QRevExample <> l' var
+R1851:1851 QRevExample <> l var
+def 1886:1891 <> myqrev
+R1910:1915 QRevExample <> mylist ind
+R1917:1917 QRevExample <> A var
+R1923:1932 QRevExample <> rev_append def
+R1937:1939 QRevExample <> nil constr
+R1934:1935 QRevExample <> xs var

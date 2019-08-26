@@ -1,0 +1,251 @@
+Lemma lemma_1 : 
+  (zzdouble z0) = z0.
+  hammer. Qed.
+Lemma lemma_2 : 
+  (zzopp z0) = z0.
+  hammer. Qed.
+Lemma lemma_3 : 
+  (zzpred z0) = (zneg xH).
+  hammer. Qed.
+Lemma lemma_4 : 
+  (zzsucc z0) = (zpos xH).
+  hammer. Qed.
+Lemma lemma_5 : 
+  forall (x : Z) (y : Z),
+  (zzadd y x) = (zzadd x y).
+  hammer. Qed.
+Lemma lemma_6 : 
+  forall (x : Z),
+  (zzdouble x) = (zzadd x x).
+  hammer. Qed.
+Lemma lemma_7 : 
+  forall (x : Z),
+  (zzcompare x x) = eq.
+  hammer. Qed.
+Lemma lemma_8 : 
+  forall (x : Z),
+  (zzleb x x).
+  hammer. Qed.
+Lemma lemma_9 : 
+  forall (x : Z) (y : Z),
+  (zzmul y x) = (zzmul x y).
+  hammer. Qed.
+Lemma lemma_10 : 
+  forall (x : Z),
+  (zzsub x x) = z0.
+  hammer. Qed.
+Lemma lemma_11 : 
+  forall (x : Z),
+  (zzadd x z0) = x.
+  hammer. Qed.
+Lemma lemma_12 : 
+  forall (x : positive),
+  (zzdouble (zneg x)) = (zneg (xO x)).
+  hammer. Qed.
+Lemma lemma_13 : 
+  forall (x : positive),
+  (zzdouble (zpos x)) = (zpos (xO x)).
+  hammer. Qed.
+Lemma lemma_14 : 
+  forall (x : Z),
+  (zzmul x z0) = z0.
+  hammer. Qed.
+Lemma lemma_15 : 
+  forall (x : positive),
+  (zzopp (zneg x)) = (zpos x).
+  hammer. Qed.
+Lemma lemma_16 : 
+  forall (x : positive),
+  (zzopp (zpos x)) = (zneg x).
+  hammer. Qed.
+Lemma lemma_17 : 
+  forall (x : Z),
+  (zzopp (zzdouble x)) = (zzdouble (zzopp x)).
+  hammer. Qed.
+Lemma lemma_18 : 
+  forall (x : Z),
+  (zzopp (zzopp x)) = x.
+  hammer. Qed.
+Lemma lemma_19 : 
+  forall (x : Z),
+  (zzpred (zzopp x)) = (zzopp (zzsucc x)).
+  hammer. Qed.
+Lemma lemma_20 : 
+  forall (x : Z),
+  (zzpred (zzsucc x)) = x.
+  hammer. Qed.
+Lemma lemma_21 : 
+  forall (x : Z),
+  (zzsub x z0) = x.
+  hammer. Qed.
+Lemma lemma_22 : 
+  forall (x : Z),
+  (zzopp x) = (zzsub z0 x).
+  hammer. Qed.
+Lemma lemma_23 : 
+  (zzpred (zneg xH)) = (zneg (xO xH)).
+  hammer. Qed.
+Lemma lemma_24 : 
+  forall (x : Z) (y : Z),
+  (zzsub x y) = (zzadd x (zzopp y)).
+  hammer. Qed.
+Lemma lemma_25 : 
+  forall (x : Z) (y : Z),
+  (zzadd y (zzpred x)) = (zzadd x (zzpred y)).
+  hammer. Qed.
+Lemma lemma_26 : 
+  forall (x : Z),
+  (zzadd x (zzpred x)) = (zzpred (zzdouble x)).
+  hammer. Qed.
+Lemma lemma_27 : 
+  forall (x : Z) (y : Z),
+  (zzadd y (zzsucc x)) = (zzadd x (zzsucc y)).
+  hammer. Qed.
+Lemma lemma_28 : 
+  forall (x : Z),
+  (zzadd x (zzsucc x)) = (zzsucc (zzdouble x)).
+  hammer. Qed.
+Lemma lemma_29 : 
+  forall (x : Z),
+  (zzcompare x (zzdouble x)) = (zzcompare z0 x).
+  hammer. Qed.
+Lemma lemma_30 : 
+  forall (x : Z) (y : Z),
+  (zzcompare y (zzopp x)) = (zzcompare x (zzopp y)).
+  hammer. Qed.
+Lemma lemma_31 : 
+  forall (x : Z),
+  (zzcompare x (zzopp x)) = (zzcompare x z0).
+  hammer. Qed.
+Lemma lemma_32 : 
+  forall (x : Z),
+  (zzcompare x (zzpred x)) = gt.
+  hammer. Qed.
+Lemma lemma_33 : 
+  forall (x : Z),
+  (zzcompare x (zzsucc x)) = lt.
+  hammer. Qed.
+Lemma lemma_34 : 
+  forall (x : Z),
+  (zzcompare (zzdouble x) x) = (zzcompare x z0).
+  hammer. Qed.
+Lemma lemma_35 : 
+  forall (x : Z) (y : Z),
+  (zzcompare (zzopp y) x) = (zzcompare (zzopp x) y).
+  hammer. Qed.
+Lemma lemma_36 : 
+  forall (x : Z) (y : Z),
+  (zzcompare (zzpred x) y) = (zzcompare x (zzsucc y)).
+  hammer. Qed.
+Lemma lemma_37 : 
+  forall (x : Z) (y : Z),
+  (zzcompare (zzsucc x) y) = (zzcompare x (zzpred y)).
+  hammer. Qed.
+Lemma lemma_38 : 
+  forall (x : Z),
+  (zzleb x (zzdouble x)) = (zzleb z0 x).
+  hammer. Qed.
+Lemma lemma_39 : 
+  forall (x : Z) (y : Z),
+  (zzleb y (zzopp x)) = (zzleb x (zzopp y)).
+  hammer. Qed.
+Lemma lemma_40 : 
+  forall (x : Z),
+  (zzleb x (zzopp x)) = (zzleb x z0).
+  hammer. Qed.
+Lemma lemma_41 : 
+  forall (x : Z),
+  (not (zzleb x (zzpred x))).
+  hammer. Qed.
+Lemma lemma_42 : 
+  forall (x : Z),
+  (zzleb x (zzsucc x)).
+  hammer. Qed.
+Lemma lemma_43 : 
+  forall (x : Z),
+  (zzleb (zzdouble x) x) = (zzleb x z0).
+  hammer. Qed.
+Lemma lemma_44 : 
+  forall (x : Z) (y : Z),
+  (zzleb (zzopp y) x) = (zzleb (zzopp x) y).
+  hammer. Qed.
+Lemma lemma_45 : 
+  forall (x : Z) (y : Z),
+  (zzleb (zzpred x) y) = (zzleb x (zzsucc y)).
+  hammer. Qed.
+Lemma lemma_46 : 
+  forall (x : Z) (y : Z),
+  (zzleb (zzsucc x) y) = (zzleb x (zzpred y)).
+  hammer. Qed.
+Lemma lemma_47 : 
+  forall (x : Z) (y : Z),
+  (zzmul x (zzdouble y)) = (zzdouble (zzmul x y)).
+  hammer. Qed.
+Lemma lemma_48 : 
+  forall (x : Z) (y : Z),
+  (zzmul y (zzopp x)) = (zzmul x (zzopp y)).
+  hammer. Qed.
+Lemma lemma_49 : 
+  forall (x : Z) (y : Z),
+  (zzopp (zzmul x y)) = (zzmul x (zzopp y)).
+  hammer. Qed.
+Lemma lemma_50 : 
+  forall (x : Z) (y : Z),
+  (zzopp (zzsub y x)) = (zzsub x y).
+  hammer. Qed.
+Lemma lemma_51 : 
+  forall (x : Z) (y : Z),
+  (zzpred (zzadd x y)) = (zzadd x (zzpred y)).
+  hammer. Qed.
+Lemma lemma_52 : 
+  forall (x : Z),
+  (zzopp x) = (zzsub x (zzdouble x)).
+  hammer. Qed.
+Lemma lemma_53 : 
+  forall (x : Z),
+  (zzsub x (zzpred x)) = (zpos xH).
+  hammer. Qed.
+Lemma lemma_54 : 
+  forall (x : Z) (y : Z),
+  (zzsucc (zzadd x y)) = (zzadd x (zzsucc y)).
+  hammer. Qed.
+Lemma lemma_55 : 
+  forall (x : positive),
+  (zzcompare z0 (zneg x)) = gt.
+  hammer. Qed.
+Lemma lemma_56 : 
+  forall (x : positive),
+  (zzcompare z0 (zpos x)) = lt.
+  hammer. Qed.
+Lemma lemma_57 : 
+  forall (x : Z),
+  (zzcompare z0 (zzdouble x)) = (zzcompare z0 x).
+  hammer. Qed.
+Lemma lemma_58 : 
+  forall (x : Z),
+  (zzcompare (zzdouble x) z0) = (zzcompare x z0).
+  hammer. Qed.
+Lemma lemma_59 : 
+  forall (x : positive),
+  (not (zzleb z0 (zneg x))).
+  hammer. Qed.
+Lemma lemma_60 : 
+  forall (x : positive),
+  (zzleb z0 (zpos x)).
+  hammer. Qed.
+Lemma lemma_61 : 
+  forall (x : Z),
+  (zzleb z0 (zzdouble x)) = (zzleb z0 x).
+  hammer. Qed.
+Lemma lemma_62 : 
+  forall (x : Z),
+  (zzleb (zzdouble x) z0) = (zzleb x z0).
+  hammer. Qed.
+Lemma lemma_63 : 
+  forall (x : Z),
+  (zzopp x) = (zzmul x (zneg xH)).
+  hammer. Qed.
+Lemma lemma_64 : 
+  forall (x : positive),
+  (zzpred (zneg (xI x))) = (zzdouble (zzpred (zneg x))).
+  hammer. Qed.

@@ -1,0 +1,295 @@
+From Coq Require Import Extraction.
+Declare ML Module "coq_spec".
+From Hammer Require Import Hammer.
+From Hammer Require Import Reconstr.
+
+From Coq Require Import ZArith.BinIntDef.
+Module ZZ := BinIntDef.Z.
+Print ZZ.
+
+MaxTermSize 4.
+MaxTestSize 12.
+
+
+Extract Inductive bool => "Prelude.Bool" [ "Prelude.True" "Prelude.False" ].
+Extract Inductive option => "Prelude.Maybe" [ "Prelude.Just" "Prelude.Nothing" ].
+Extract Inductive unit => "()" [ "()" ].
+Extract Inductive list => "([])" [ "([])" "(:)" ].
+Extract Inductive prod => "(,)" [ "(,)" ].
+
+Extract Inductive sumbool => "Prelude.Bool" [ "Prelude.True" "Prelude.False" ].
+Extract Inductive sumor => "Prelude.Maybe" [ "Prelude.Just" "Prelude.Nothing" ].
+Extract Inductive sum => "Prelude.Either" [ "Prelude.Left" "Prelude.Right" ].
+
+Extract Inlined Constant andb => "(Prelude.&&)".
+Extract Inlined Constant orb => "(Prelude.||)".
+Extract Inlined Constant negb => "Prelude.not".
+
+
+Definition zzadd := ZZ.add.
+Definition zzdouble := ZZ.double.
+Definition zzsucc := ZZ.succ.
+Definition zzpred := ZZ.pred.
+Definition zzmul := ZZ.mul.
+Definition zzsub := ZZ.sub.
+Definition zzopp := ZZ.opp.
+Definition zzcompare := ZZ.compare.
+Definition zzleb := ZZ.leb.
+
+DiscoverLemmas "ZArithTest" zzadd zzdouble zzsucc zzpred zzmul zzsub zzopp zzcompare zzleb.
+Print ZZ.
+
+Lemma lemma_1 : 
+  (zzdouble Z0) = Z0.
+  Proof. Admitted.
+Lemma lemma_2 : 
+  (zzopp Z0) = Z0.
+  Proof. Admitted.
+Lemma lemma_3 : 
+  (zzpred Z0) = (Zneg xH).
+  Proof. Admitted.
+Lemma lemma_4 : 
+  (zzsucc Z0) = (Zpos xH).
+  Proof. Admitted.
+Lemma lemma_5 : 
+  forall (x : Z) (y : Z),
+  (zzadd y x) = (zzadd x y).
+  Proof. Admitted.
+Lemma lemma_6 : 
+  forall (x : Z),
+  (zzdouble x) = (zzadd x x).
+  Proof. Proof. Admitted.
+Lemma lemma_7 : 
+  forall (x : Z),
+  (zzcompare x x) = eq.
+  Proof. Proof. Admitted.
+Lemma lemma_8 : 
+  forall (x : Z),
+  (zzleb x x).
+  Proof. Admitted.
+Lemma lemma_9 : 
+  forall (x : Z) (y : Z),
+  (zzmul y x) = (zzmul x y).
+  Proof. Admitted.
+Lemma lemma_10 : 
+  forall (x : Z),
+  (zzsub x x) = z0.
+  Proof. Admitted.
+Lemma lemma_11 : 
+  forall (x : Z),
+  (zzadd x z0) = x.
+  Proof. Admitted.
+Lemma lemma_12 : 
+  forall (x : positive),
+  (zzdouble (zneg x)) = (zneg (xO x)).
+  Proof. Admitted.
+Lemma lemma_13 : 
+  forall (x : positive),
+  (zzdouble (zpos x)) = (zpos (xO x)).
+  Proof. Admitted.
+Lemma lemma_14 : 
+  forall (x : Z),
+  (zzmul x z0) = z0.
+  Proof. Admitted.
+Lemma lemma_15 : 
+  forall (x : positive),
+  (zzopp (zneg x)) = (zpos x).
+  Proof. Admitted.
+Lemma lemma_16 : 
+  forall (x : positive),
+  (zzopp (zpos x)) = (zneg x).
+  Proof. Admitted.
+Lemma lemma_17 : 
+  forall (x : Z),
+  (zzopp (zzdouble x)) = (zzdouble (zzopp x)).
+  Proof. Admitted.
+Lemma lemma_18 : 
+  forall (x : Z),
+  (zzopp (zzopp x)) = x.
+  Proof. Admitted.
+Lemma lemma_19 : 
+  forall (x : Z),
+  (zzpred (zzopp x)) = (zzopp (zzsucc x)).
+  Proof. Admitted.
+Lemma lemma_20 : 
+  forall (x : Z),
+  (zzpred (zzsucc x)) = x.
+  Proof. Admitted.
+Lemma lemma_21 : 
+  forall (x : Z),
+  (zzsub x z0) = x.
+  Proof. Admitted.
+Lemma lemma_22 : 
+  forall (x : Z),
+  (zzopp x) = (zzsub z0 x).
+  Proof. Admitted.
+Lemma lemma_23 : 
+  (zzpred (zneg xH)) = (zneg (xO xH)).
+  Proof. Admitted.
+Lemma lemma_24 : 
+  forall (x : Z) (y : Z),
+  (zzsub x y) = (zzadd x (zzopp y)).
+  Proof. Admitted.
+Lemma lemma_25 : 
+  forall (x : Z) (y : Z),
+  (zzadd y (zzpred x)) = (zzadd x (zzpred y)).
+  Proof. Admitted.
+Lemma lemma_26 : 
+  forall (x : Z),
+  (zzadd x (zzpred x)) = (zzpred (zzdouble x)).
+  Proof. Admitted.
+Lemma lemma_27 : 
+  forall (x : Z) (y : Z),
+  (zzadd y (zzsucc x)) = (zzadd x (zzsucc y)).
+  Proof. Admitted.
+Lemma lemma_28 : 
+  forall (x : Z),
+  (zzadd x (zzsucc x)) = (zzsucc (zzdouble x)).
+  Proof. Admitted.
+Lemma lemma_29 : 
+  forall (x : Z),
+  (zzcompare x (zzdouble x)) = (zzcompare z0 x).
+  Proof. Admitted.
+Lemma lemma_30 : 
+  forall (x : Z) (y : Z),
+  (zzcompare y (zzopp x)) = (zzcompare x (zzopp y)).
+  Proof. Admitted.
+Lemma lemma_31 : 
+  forall (x : Z),
+  (zzcompare x (zzopp x)) = (zzcompare x z0).
+  Proof. Admitted.
+Lemma lemma_32 : 
+  forall (x : Z),
+  (zzcompare x (zzpred x)) = gt.
+  Proof. Admitted.
+Lemma lemma_33 : 
+  forall (x : Z),
+  (zzcompare x (zzsucc x)) = lt.
+  Proof. Admitted.
+Lemma lemma_34 : 
+  forall (x : Z),
+  (zzcompare (zzdouble x) x) = (zzcompare x z0).
+  Proof. Admitted.
+Lemma lemma_35 : 
+  forall (x : Z) (y : Z),
+  (zzcompare (zzopp y) x) = (zzcompare (zzopp x) y).
+  Proof. Admitted.
+Lemma lemma_36 : 
+  forall (x : Z) (y : Z),
+  (zzcompare (zzpred x) y) = (zzcompare x (zzsucc y)).
+  Proof. Admitted.
+Lemma lemma_37 : 
+  forall (x : Z) (y : Z),
+  (zzcompare (zzsucc x) y) = (zzcompare x (zzpred y)).
+  Proof. Admitted.
+Lemma lemma_38 : 
+  forall (x : Z),
+  (zzleb x (zzdouble x)) = (zzleb z0 x).
+  Proof. Admitted.
+Lemma lemma_39 : 
+  forall (x : Z) (y : Z),
+  (zzleb y (zzopp x)) = (zzleb x (zzopp y)).
+  Proof. Admitted.
+Lemma lemma_40 : 
+  forall (x : Z),
+  (zzleb x (zzopp x)) = (zzleb x z0).
+  Proof. Admitted.
+Lemma lemma_41 : 
+  forall (x : Z),
+  (not (zzleb x (zzpred x))).
+  Proof. Admitted.
+Lemma lemma_42 : 
+  forall (x : Z),
+  (zzleb x (zzsucc x)).
+  Proof. Admitted.
+Lemma lemma_43 : 
+  forall (x : Z),
+  (zzleb (zzdouble x) x) = (zzleb x z0).
+  Proof. Admitted.
+Lemma lemma_44 : 
+  forall (x : Z) (y : Z),
+  (zzleb (zzopp y) x) = (zzleb (zzopp x) y).
+  Proof. Admitted.
+Lemma lemma_45 : 
+  forall (x : Z) (y : Z),
+  (zzleb (zzpred x) y) = (zzleb x (zzsucc y)).
+  Proof. Admitted.
+Lemma lemma_46 : 
+  forall (x : Z) (y : Z),
+  (zzleb (zzsucc x) y) = (zzleb x (zzpred y)).
+  Proof. Admitted.
+Lemma lemma_47 : 
+  forall (x : Z) (y : Z),
+  (zzmul x (zzdouble y)) = (zzdouble (zzmul x y)).
+  Proof. Admitted.
+Lemma lemma_48 : 
+  forall (x : Z) (y : Z),
+  (zzmul y (zzopp x)) = (zzmul x (zzopp y)).
+  Proof. Admitted.
+Lemma lemma_49 : 
+  forall (x : Z) (y : Z),
+  (zzopp (zzmul x y)) = (zzmul x (zzopp y)).
+  Proof. Admitted.
+Lemma lemma_50 : 
+  forall (x : Z) (y : Z),
+  (zzopp (zzsub y x)) = (zzsub x y).
+  Proof. Admitted.
+Lemma lemma_51 : 
+  forall (x : Z) (y : Z),
+  (zzpred (zzadd x y)) = (zzadd x (zzpred y)).
+  Proof. Admitted.
+Lemma lemma_52 : 
+  forall (x : Z),
+  (zzopp x) = (zzsub x (zzdouble x)).
+  Proof. Admitted.
+Lemma lemma_53 : 
+  forall (x : Z),
+  (zzsub x (zzpred x)) = (zpos xH).
+  Proof. Admitted.
+Lemma lemma_54 : 
+  forall (x : Z) (y : Z),
+  (zzsucc (zzadd x y)) = (zzadd x (zzsucc y)).
+  Proof. Admitted.
+Lemma lemma_55 : 
+  forall (x : positive),
+  (zzcompare z0 (zneg x)) = gt.
+  Proof. Admitted.
+Lemma lemma_56 : 
+  forall (x : positive),
+  (zzcompare z0 (zpos x)) = lt.
+  Proof. Admitted.
+Lemma lemma_57 : 
+  forall (x : Z),
+  (zzcompare z0 (zzdouble x)) = (zzcompare z0 x).
+  Proof. Admitted.
+Lemma lemma_58 : 
+  forall (x : Z),
+  (zzcompare (zzdouble x) z0) = (zzcompare x z0).
+  Proof. Admitted.
+Lemma lemma_59 : 
+  forall (x : positive),
+  (not (zzleb z0 (zneg x))).
+  Proof. Admitted.
+Lemma lemma_60 : 
+  forall (x : positive),
+  (zzleb z0 (zpos x)).
+  Proof. Admitted.
+Lemma lemma_61 : 
+  forall (x : Z),
+  (zzleb z0 (zzdouble x)) = (zzleb z0 x).
+  Proof. Admitted.
+Lemma lemma_62 : 
+  forall (x : Z),
+  (zzleb (zzdouble x) z0) = (zzleb x z0).
+  Proof. Admitted.
+Lemma lemma_63 : 
+  forall (x : Z),
+  (zzopp x) = (zzmul x (zneg xH)).
+  Proof. Admitted.
+Lemma lemma_64 : 
+  forall (x : positive),
+  (zzpred (zneg (xI x))) = (zzdouble (zzpred (zneg x))).
+  Proof. hammer. Admitted.
+
+
+

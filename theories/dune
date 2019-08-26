@@ -1,5 +1,5 @@
 (coq.theory
- (name MyPlugin)
- (public_name my-plugin.theory)
- (libraries my-plugin.plugin))
+ (name CoqSpec)
+ (public_name coq-spec.theory)
+ (libraries coq-spec.plugin))
 

@@ -1,0 +1,16 @@
+DIGEST c04aa749f992ed6eb551266e04967a9a
+FZArithTest
+R24:33 Coq.extraction.Extraction <> <> lib
+R93:98 Hammer.Plugin.Hammer <> <> lib
+R128:135 Hammer.Tactics.Reconstr <> <> lib
+R163:178 Coq.ZArith.BinIntDef <> <> lib
+R194:204 Coq.ZArith.BinIntDef Z <> modtype
+mod 188:189 <> ZZ
+R269:272 Coq.Init.Datatypes <> bool ind
+R346:351 Coq.Init.Datatypes <> option ind
+R428:431 Coq.Init.Datatypes <> unit ind
+R469:472 Coq.Init.Datatypes <> list ind
+R520:523 Coq.Init.Datatypes <> prod ind
+R564:570 Coq.Init.Specif <> sumbool ind
+R644:648 Coq.Init.Specif <> sumor ind
+R725:727 Coq.Init.Datatypes <> sum ind
