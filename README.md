@@ -1,86 +1,30 @@
-Example of Coq Plugin using Dune
---------------------------------
+# Rooster-Spec
 
-Hi all, this repository contains a template for writing a Coq plugin
-using the Dune build system. It showcases a few advanced features such
-as linking to C code or to external libraries.
+Rooster-Spec is a Coq plug-in for automated theory exploration. You give Rooster-Spec a set of (computable) functions, and it returns a list of interesting (unproven) conjectures about these functions.
 
-The current version requires:
-- Dune 1.10 
-- Coq 8.10 [the [v8.9 branch](https://github.com/ejgallego/coq-plugin-template/tree/v8.9)
-  has a version that will work with Coq 8.9]
+Note that this plug-in is still in very early development stages! We encourage people to try it out and report any bugs.
 
-See [Coq Dune documentation](https://dune.readthedocs.io/en/latest/coq.html) for
-more help.
+## Installation (linux/unix only currently)
 
-## See also
+Prerequisites:
 
-https://github.com/coq/coq/tree/master/doc/plugin_tutorial , which
-already includes `dune` files for their ML part.
+- opam >= 2.0.5
+- dune >= 1.10
+- coq 8.9.*
+- stack >= 2.1
+- Z3
+- CoqHammer
+- clone this fork of tip-tools, and follow the installation instructions
 
-## How to build
+After installing all the prerequisites, in the entry folder of rooster-spec run `make install`.
 
-```
-$ dune build
-```
+## Usage
 
-and the rest of regular Dune commands, to test
+First import the plug-in and the Extraction plug-in
+`Declare ML Module "coq_spec"`
+`From Coq Require Import Extraction`
 
-```
-$ dune exec -- coqtop -R _build/default/theories MyPlugin
-```
+Then simply execute the command
+`DiscoverLemmas "<somefilename>" func1 func2 func3.`
 
-this will be improved soon.
-
-## Composing with Coq
-
-You can symlink the Coq >= 8.10 sources in your plugin tree and you
-will get a composed build, with some caveats:
-
-- you should run `make -f Makefile.dune voboot]`
-- you should call Coq's configure with the a correct install path
-
-this will be improved soon so things work out of the box.
-
-## Linking with external libraries
-
-If your plugin depends on an external OCaml library, Coq will fail to
-load it as it doesn't know about this dependency.
-
-This should be fixed in Coq hopefully soon, see [Coq's
-issue](https://github.com/coq/coq/issues/7698).
-
-Meanwhile, you need to manage the dependency chain manually; imagine
-you want to depend on `z3`, then in your `(library ...)` stanza you
-want to add:
-```lisp
-  (libraries coq.vernac z3)
-```
-That is cool, and your plugin will now be able to link to `z3`,
-however, when dynamically loading it, you must ensure that the `z3`
-modules have been linked.
-
-To do so manually, load the `z3` plugin in your `Test.v` file:
-```
-Declare ML Module "z3ml".
-Declare ML Module "example_plugin".
-```
-We are almost there! A last thing you need to do is to workaround a Coq Dune bug and
-add z3 to the list of dependencies of your theory:
-```
- (libraries z3 my-plugin.plugin))
-```
-and that's all!
-
-A last step to make things work in the concrete case of `z3` is to
-update the `LD_LIBRARY_PATH` as the OPAM package is buggy, usually this will do:
-```
-export LD_LIBRARY_PATH=~/.opam/coq.dev/lib/z3:$LD_LIBRARY_PATH
-```
-
-## Caveats
-
-- Coq's linker cannot track dependencies properly, thus YMMV when
-  linking against 3rd party libs, see
-- `coqdep` emits some warnings that should be hard failures, we
-  recommend you treat them as such.
+If it runs too slow, or you want larger, more complex conjectures, you can change the maximal term size (default is 5) with `MaxTermSize <size>`.

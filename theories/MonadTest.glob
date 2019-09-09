@@ -1,0 +1,96 @@
+DIGEST badd1b8a223e4f2ea2a8eb4194153328
+FMonadTest
+R24:33 Coq.extraction.Extraction <> <> lib
+R60:63 Coq.Lists.List <> <> lib
+R123:128 Hammer.Plugin.Hammer <> <> lib
+R158:165 Hammer.Tactics.Reconstr <> <> lib
+R228:243 Cpdt.CpdtTactics <> <> lib
+R289:292 Coq.Init.Datatypes <> bool ind
+R366:371 Coq.Init.Datatypes <> option ind
+R448:451 Coq.Init.Datatypes <> unit ind
+R489:492 Coq.Init.Datatypes <> list ind
+R540:543 Coq.Init.Datatypes <> prod ind
+R584:590 Coq.Init.Specif <> sumbool ind
+R664:668 Coq.Init.Specif <> sumor ind
+R745:747 Coq.Init.Datatypes <> sum ind
+def 995:1000 <> retOpt
+R1018:1018 MonadTest <> A var
+R1024:1027 Coq.Init.Datatypes <> Some constr
+R1029:1029 MonadTest <> x var
+def 1045:1051 <> bindOpt
+R1071:1076 Coq.Init.Datatypes <> option ind
+R1078:1078 MonadTest <> A var
+R1087:1090 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1091:1096 Coq.Init.Datatypes <> option ind
+R1098:1098 MonadTest <> B var
+R1086:1086 MonadTest <> A var
+R1103:1108 Coq.Init.Datatypes <> option ind
+R1110:1110 MonadTest <> B var
+R1123:1123 MonadTest <> a var
+R1136:1139 Coq.Init.Datatypes <> Some constr
+R1146:1146 MonadTest <> f var
+R1156:1159 Coq.Init.Datatypes <> None constr
+R1164:1167 Coq.Init.Datatypes <> None constr
+R1183:1185 Coq.Lists.List <> map def
+def 1337:1340 <> join
+R1358:1361 Coq.Init.Datatypes <> list ind
+R1364:1367 Coq.Init.Datatypes <> list ind
+R1369:1369 MonadTest <> A var
+R1384:1384 MonadTest <> l var
+R1395:1396 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R1401:1402 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R1410:1413 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1423:1427 Coq.Init.Datatypes <> ::list_scope:x_'++'_x not
+R1436:1436 Coq.Init.Datatypes <> ::list_scope:x_'++'_x not
+R1428:1431 MonadTest <> join def
+def 1457:1459 <> ret
+R1477:1477 MonadTest <> A var
+R1483:1483 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R1485:1485 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R1484:1484 MonadTest <> x var
+def 1500:1503 <> bind
+R1523:1526 Coq.Init.Datatypes <> list ind
+R1528:1528 MonadTest <> A var
+R1537:1540 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1541:1544 Coq.Init.Datatypes <> list ind
+R1546:1546 MonadTest <> B var
+R1536:1536 MonadTest <> A var
+R1551:1554 Coq.Init.Datatypes <> list ind
+R1556:1556 MonadTest <> B var
+R1563:1570 Coq.Lists.List <> flat_map def
+R1574:1574 MonadTest <> l var
+R1572:1572 MonadTest <> f var
+R1603:1606 MonadTest <> bind def
+not 1589:1589 <> :::x_'>>='_x
+R1990:1993 MonadTest <> bind def
+not 1968:1968 <> :::'do'_x_'<-'_x_';'_x
+def 2080:2091 <> kleisli_comp
+R2114:2117 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2118:2121 Coq.Init.Datatypes <> list ind
+R2123:2123 MonadTest <> B var
+R2113:2113 MonadTest <> A var
+R2132:2135 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2136:2139 Coq.Init.Datatypes <> list ind
+R2141:2141 MonadTest <> C var
+R2131:2131 MonadTest <> B var
+R2148:2151 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2152:2155 Coq.Init.Datatypes <> list ind
+R2157:2157 MonadTest <> C var
+R2147:2147 MonadTest <> A var
+R2172:2180 MonadTest <> :::'do'_x_'<-'_x_';'_x not
+R2182:2185 MonadTest <> :::'do'_x_'<-'_x_';'_x not
+R2189:2194 MonadTest <> :::'do'_x_'<-'_x_';'_x not
+R2186:2186 MonadTest <> f var
+R2188:2188 MonadTest <> a var
+R2195:2195 MonadTest <> g var
+R2197:2197 MonadTest <> y var
+def 2259:2265 <> compose
+R2288:2291 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2292:2292 MonadTest <> B var
+R2287:2287 MonadTest <> A var
+R2301:2304 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2305:2305 MonadTest <> A var
+R2300:2300 MonadTest <> C var
+R2322:2322 MonadTest <> f var
+R2325:2325 MonadTest <> g var
+R2327:2327 MonadTest <> x var

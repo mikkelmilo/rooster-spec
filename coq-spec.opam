@@ -1,14 +1,14 @@
 synopsis:     "Coq Plugin Template"
 description:  "Coq Plugin Template"
-name:         "my-plugin"
+name:         "coq-spec"
 opam-version: "2.0"
 maintainer:   "your@mail.org"
 authors:      "You Name"
-homepage:     "https://github.com/your-github/my-plugin"
-bug-reports:  "https://github.com/your-github/my-plugin"
-dev-repo:     "git+https://github.com/your-github/my-plugin"
+homepage:     "https://github.com/your-github/coq-spec"
+bug-reports:  "https://github.com/your-github/coq-spec"
+dev-repo:     "git+https://github.com/your-github/coq-spec"
 license:      "GPL 3"
-doc:          "https://your-github.github.io/my-plugin/doc"
+doc:          "https://your-github.github.io/coq-spec/doc"
 
 depends: [
   "ocaml"         { >= "4.07.1"           }

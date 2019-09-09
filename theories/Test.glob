@@ -1,0 +1,7 @@
+DIGEST f07ea161b285f7619053bdf218573899
+FTest
+R24:33 Coq.extraction.Extraction <> <> lib
+R60:63 Coq.Lists.List <> <> lib
+R123:128 Hammer.Plugin.Hammer <> <> lib
+R158:165 Hammer.Tactics.Reconstr <> <> lib
+R228:243 Cpdt.CpdtTactics <> <> lib
