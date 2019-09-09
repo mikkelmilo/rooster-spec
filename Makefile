@@ -6,5 +6,7 @@ install:
 
 clean:
 	rm -f theories/*.vo ;
-	rm -f *.hs
-	rm -f *.smt2
+	rm *.hs
+	rm *.smt2
+	rm *.ml
+	rm *.mli
