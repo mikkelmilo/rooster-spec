@@ -475,6 +475,13 @@
     ((_ z)
      ((Zpos p) (iter y z p)))))
 (define-fun
+  isUnit :keep :source isUnit
+  ((x Z)) Bool
+  (match x
+    ((Z0 true)
+     ((Zpos p) false)
+     ((Zneg q) false))))
+(define-fun
   fst :keep :source fst
   (par (a1 a2) (((x (pair a1 a2))) a1)) (match x (((pair2 y z) y))))
 (define-fun
@@ -997,9 +1004,6 @@
          ((Zpos |y'3|) (pos_sub |y'3| |x'2|))
          ((Zneg |y'4|) (Zneg (add0 |x'2| |y'4|)))))))))
 (define-fun
-  myadd :keep :source myadd
-  ((x Z) (y Z)) Z (add1 x y))
-(define-fun
   pred :keep :source pred
   ((x Z)) Z (add1 x (Zneg XH)))
 (define-fun
@@ -1008,6 +1012,9 @@
 (define-fun
   succ0 :keep :source succ0
   ((x Z)) Z (add1 x (Zpos XH)))
+(define-fun
+  zadd :keep :source zadd
+  ((x Z) (y Z)) Z (add1 x y))
 (define-fun-rec
   ggcdn :keep :source ggcdn
   ((x Nat) (y Positive) (z Positive))
@@ -1353,187 +1360,36 @@
                   (pair2 (Zpos g2) (pair2 (Zneg aa4) (Zneg bb4))))))))))))))))
 (prove
   :lemma
-  (= (opp Z0) Z0))
+  (forall ((x Z) (y Z)) (=> (isUnit x) (=> (isUnit y) (= x y)))))
 (prove
   :lemma
-  (= (pred Z0) (Zneg XH)))
+  (forall ((x Z)) (=> (isUnit x) (= Z0 x))))
 (prove
   :lemma
-  (= (succ XH) (XO XH)))
+  (forall ((x Z) (y Z)) (= (zadd y x) (zadd x y))))
 (prove
   :lemma
-  (forall ((x Positive) (y Positive)) (= (mul y x) (mul x y))))
+  (forall ((x Z) (y Z)) (=> (isUnit x) (= (zadd y x) y))))
 (prove
   :lemma
-  (forall ((x Z) (y Z)) (= (myadd y x) (myadd x y))))
+  (forall ((x Positive)) (not (isUnit (Zneg x)))))
 (prove
   :lemma
-  (forall ((x Positive)) (= (sub x x) XH)))
+  (forall ((x Positive)) (not (isUnit (Zpos x)))))
 (prove
   :lemma
-  (forall ((x Positive)) (= (mul x XH) x)))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x Z0) x)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (opp (Zneg x)) (Zpos x))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (opp (Zpos x)) (Zneg x))))
-(prove
-  :lemma
-  (forall ((x Z)) (= (opp (opp x)) x)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (pred (Zneg x)) (Zneg (succ x)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub XH x) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ (XI x)) (XO (succ x)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ (XO x)) (XI x))))
-(prove
-  :lemma
-  (= (pred (Zpos XH)) Z0))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (mul x (XO y)) (XO (mul x y)))))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x (opp x)) Z0)))
-(prove
-  :lemma
-  (forall ((x Z) (y Z)) (= (myadd y (pred x)) (myadd x (pred y)))))
-(prove
-  :lemma
-  (forall ((x Z) (y Z)) (= (pred (myadd x y)) (myadd x (pred y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XO x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (succ x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ x) (sub (XI x) x))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XO x) x) x)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (succ x) x) XH)))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x (Zpos XH)) (opp (pred (opp x))))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XI x) XH) (XO x))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XO XH) x) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (succ x) XH) x)))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive) (z Positive))
-    (= (mul (mul x y) z) (mul x (mul y z)))))
+  (forall ((x Z)) (= (isUnit (zadd x x)) (isUnit x))))
 (prove
   :lemma
   (forall ((x Z) (y Z) (z Z))
-    (= (myadd (myadd x y) z) (myadd x (myadd y z)))))
+    (= (zadd (zadd x y) z) (zadd x (zadd y z)))))
 (prove
   :lemma
-  (forall ((x Positive) (y Positive)) (= (sub x (mul x y)) XH)))
+  (forall ((x Positive)) (= (zadd (Zneg x) (Zneg x)) (Zneg (XO x)))))
 (prove
   :lemma
-  (forall ((x Positive) (y Positive) (z Positive))
-    (= (sub (sub x z) y) (sub (sub x y) z))))
+  (forall ((x Positive) (y Z))
+    (=> (isUnit y) (= (zadd (Zneg x) (Zpos x)) y))))
 (prove
   :lemma
-  (forall ((x Positive) (y Positive))
-    (= (sub (sub x y) y) (sub x (XO y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (mul x (sub x XH)) (sub (mul x x) x))))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x (opp (pred x))) (Zpos XH))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (myadd (Zneg x) (Zneg x)) (Zneg (XO x)))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (myadd (Zpos x) (Zpos x)) (Zpos (XO x)))))
-(prove
-  :lemma
-  (forall ((x Z) (y Z))
-    (= (myadd (opp x) (opp y)) (opp (myadd x y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI (XI x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI (XO x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI (succ x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (sub x XH)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (succ (succ x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (sub (XI x) (succ y)) (sub (XO x) y))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XI (succ x)) x) (succ (succ (succ x))))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XO x) (succ x)) (sub x XH))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (mul x (XI XH)) (sub (XO (XO x)) x))))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (sub (sub x y) XH) (sub x (succ y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (succ (succ x)) x) (XO XH))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (pred (Zpos (XO x))) (Zpos (sub (XO x) XH)))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XI (XI x)) x) (mul (XI XH) (succ x)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XI XH) (XO x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XO (XO x)) XH) (XI (sub (XO x) XH)))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XI (XO x)) x) (succ (mul x (XI XH))))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ (sub (XO x) XH)) (XO x))))
+  (forall ((x Positive)) (= (zadd (Zpos x) (Zpos x)) (Zpos (XO x)))))

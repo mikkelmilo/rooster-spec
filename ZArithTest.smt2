@@ -178,9 +178,6 @@
      ((Zpos x0) (Zneg x0))
      ((Zneg x02) (Zpos x02)))))
 (define-fun
-  zzopp :keep :source zzopp
-  ((x Z)) Z (opp x))
-(define-fun
   one :keep :source one
   () Z (Zpos XH))
 (define-fun-rec
@@ -615,9 +612,6 @@
          ((XO q5) (Zneg (pred_double q5)))
          (XH Z0)))))))
 (define-fun
-  zzdouble :keep :source zzdouble
-  ((x Z)) Z (double1 x))
-(define-fun
   double0 :keep :source double0
   ((x N)) N
   (match x
@@ -839,9 +833,6 @@
     ((_ true)
      (Gt false))))
 (define-fun
-  zzleb :keep :source zzleb
-  ((x Z) (y Z)) Bool (leb1 x y))
-(define-fun
   ltb :keep :source ltb
   ((x Z) (y Z)) Bool
   (match (compare1 x y)
@@ -859,9 +850,6 @@
   (match (compare1 x y)
     ((_ x)
      (Gt y))))
-(define-fun
-  zzcompare :keep :source zzcompare
-  ((x Z) (y Z)) Comparison (compare1 x y))
 (define-fun-rec
   gcdn :keep :source gcdn
   ((x Nat) (y Positive) (z Positive)) Positive
@@ -1009,26 +997,17 @@
          ((Zpos |y'3|) (pos_sub |y'3| |x'2|))
          ((Zneg |y'4|) (Zneg (add0 |x'2| |y'4|)))))))))
 (define-fun
+  myadd :keep :source myadd
+  ((x Z) (y Z)) Z (add1 x y))
+(define-fun
   pred :keep :source pred
   ((x Z)) Z (add1 x (Zneg XH)))
-(define-fun
-  zzpred :keep :source zzpred
-  ((x Z)) Z (pred x))
 (define-fun
   sub1 :keep :source sub1
   ((x Z) (y Z)) Z (add1 x (opp y)))
 (define-fun
-  zzsub :keep :source zzsub
-  ((x Z) (y Z)) Z (sub1 x y))
-(define-fun
   succ0 :keep :source succ0
   ((x Z)) Z (add1 x (Zpos XH)))
-(define-fun
-  zzsucc :keep :source zzsucc
-  ((x Z)) Z (succ0 x))
-(define-fun
-  zzadd :keep :source zzadd
-  ((x Z) (y Z)) Z (add1 x y))
 (define-fun-rec
   ggcdn :keep :source ggcdn
   ((x Nat) (y Positive) (z Positive))
@@ -1100,9 +1079,6 @@
   pow_pos :keep :source pow_pos
   ((x Z) (y Positive)) Z
   (iter (lambda ((z Z)) (mul0 x z)) (Zpos XH) y))
-(define-fun
-  zzmul :keep :source zzmul
-  ((x Z) (y Z)) Z (mul0 x y))
 (define-fun-rec
   pos_div_eucl0 :keep :source pos_div_eucl0
   ((x Positive) (y Z)) (pair Z Z)

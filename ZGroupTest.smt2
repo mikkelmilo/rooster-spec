@@ -393,7 +393,7 @@
          ((Zpos b03)
           (match (pred_N a02)
             ((N0 (Zneg XH))
-             ((Npos q) (Zneg (succ_pos (ldiff q b03)))))))
+             ((Npos p) (Zneg (succ_pos (ldiff p b03)))))))
          ((Zneg b04)
           (Zneg (succ_pos (land0 (pred_N a02) (pred_N b04)))))))))))
 (define-fun
@@ -421,8 +421,8 @@
          ((Zpos b03)
           (match (pred_N a02)
             ((N0 (Zpos b03))
-             ((Npos q2)
-              (match (ldiff b03 q2)
+             ((Npos q)
+              (match (ldiff b03 q)
                 ((N0 Z0)
                  ((Npos p2) (Zpos p2))))))))
          ((Zneg b04)
@@ -474,6 +474,13 @@
   (match x
     ((_ z)
      ((Zpos p) (iter y z p)))))
+(define-fun
+  isUnit :keep :source isUnit
+  ((x Z)) Bool
+  (match x
+    ((Z0 true)
+     ((Zpos p) false)
+     ((Zneg q) false))))
 (define-fun
   fst :keep :source fst
   (par (a1 a2) (((x (pair a1 a2))) a1)) (match x (((pair2 y z) y))))
@@ -997,9 +1004,6 @@
          ((Zpos |y'3|) (pos_sub |y'3| |x'2|))
          ((Zneg |y'4|) (Zneg (add0 |x'2| |y'4|)))))))))
 (define-fun
-  myadd :keep :source myadd
-  ((x Z) (y Z)) Z (add1 x y))
-(define-fun
   pred :keep :source pred
   ((x Z)) Z (add1 x (Zneg XH)))
 (define-fun
@@ -1008,6 +1012,9 @@
 (define-fun
   succ0 :keep :source succ0
   ((x Z)) Z (add1 x (Zpos XH)))
+(define-fun
+  zadd :keep :source zadd
+  ((x Z) (y Z)) Z (add1 x y))
 (define-fun-rec
   ggcdn :keep :source ggcdn
   ((x Nat) (y Positive) (z Positive))
@@ -1098,15 +1105,15 @@
               (let ((|x'3| (XO XH)))
                 (match q
                   ((Z0 (pair2 Z0 |r'|))
-                   ((Zpos |y'3|) (pair2 (Zpos (mul |x'3| |y'3|)) |r'|))
-                   ((Zneg |y'22|) (pair2 (Zneg (mul |x'3| |y'22|)) |r'|)))))
+                   ((Zpos |y'|) (pair2 (Zpos (mul |x'3| |y'|)) |r'|))
+                   ((Zneg |y'2|) (pair2 (Zneg (mul |x'3| |y'2|)) |r'|)))))
               (let ((|x'2| (XO XH)))
                 (match q
                   ((Z0 (pair2 (add1 Z0 (Zpos XH)) (sub1 |r'| y)))
-                   ((Zpos |y'4|)
-                    (pair2 (add1 (Zpos (mul |x'2| |y'4|)) (Zpos XH)) (sub1 |r'| y)))
-                   ((Zneg |y'23|)
-                    (pair2 (add1 (Zneg (mul |x'2| |y'23|)) (Zpos XH))
+                   ((Zpos |y'|)
+                    (pair2 (add1 (Zpos (mul |x'2| |y'|)) (Zpos XH)) (sub1 |r'| y)))
+                   ((Zneg |y'2|)
+                    (pair2 (add1 (Zneg (mul |x'2| |y'2|)) (Zpos XH))
                       (sub1 |r'| y))))))))))))
      ((XO |a'2|)
       (match (pos_div_eucl0 |a'2| y)
@@ -1116,28 +1123,28 @@
                 (let ((|x'4| (XO XH)))
                   (match r2
                     ((Z0 Z0)
-                     ((Zpos |y'5|) (Zpos (mul |x'4| |y'5|)))
-                     ((Zneg |y'24|) (Zneg (mul |x'4| |y'24|))))))))
+                     ((Zpos |y'|) (Zpos (mul |x'4| |y'|)))
+                     ((Zneg |y'2|) (Zneg (mul |x'4| |y'2|))))))))
             (ite
               (ltb |r'2| y)
               (let ((|x'6| (XO XH)))
                 (match p
                   ((Z0 (pair2 Z0 |r'2|))
-                   ((Zpos |y'6|) (pair2 (Zpos (mul |x'6| |y'6|)) |r'2|))
-                   ((Zneg |y'25|) (pair2 (Zneg (mul |x'6| |y'25|)) |r'2|)))))
+                   ((Zpos |y'|) (pair2 (Zpos (mul |x'6| |y'|)) |r'2|))
+                   ((Zneg |y'2|) (pair2 (Zneg (mul |x'6| |y'2|)) |r'2|)))))
               (let ((|x'5| (XO XH)))
                 (match p
                   ((Z0 (pair2 (add1 Z0 (Zpos XH)) (sub1 |r'2| y)))
-                   ((Zpos |y'7|)
-                    (pair2 (add1 (Zpos (mul |x'5| |y'7|)) (Zpos XH)) (sub1 |r'2| y)))
-                   ((Zneg |y'26|)
-                    (pair2 (add1 (Zneg (mul |x'5| |y'26|)) (Zpos XH))
+                   ((Zpos |y'|)
+                    (pair2 (add1 (Zpos (mul |x'5| |y'|)) (Zpos XH)) (sub1 |r'2| y)))
+                   ((Zneg |y'2|)
+                    (pair2 (add1 (Zneg (mul |x'5| |y'2|)) (Zpos XH))
                       (sub1 |r'2| y))))))))))))
      (XH
       (match y
         ((_ (pair2 (Zpos XH) Z0))
-         ((Zpos |y'32|)
-          (match (compare (XO XH) |y'32|)
+         ((Zpos |y'3|)
+          (match (compare (XO XH) |y'3|)
             ((_ (pair2 Z0 (Zpos XH)))
              (Gt (pair2 (Zpos XH) Z0)))))))))))
 (define-fun
@@ -1153,10 +1160,10 @@
           (match (pos_div_eucl0 |a'| (Zpos |b'|))
             (((pair2 q r)
               (match r
-                ((Z0 (pair2 (opp q) Z0))
-                 ((Zpos |y'|) (pair2 (opp (add1 q (Zpos XH))) (pos_sub |y'| |b'|)))
+                (((Zpos |y'|) (pair2 (opp (add1 q (Zpos XH))) (pos_sub |y'| |b'|)))
                  ((Zneg |y'2|)
-                  (pair2 (opp (add1 q (Zpos XH))) (Zneg (add0 |b'| |y'2|)))))))))))))
+                  (pair2 (opp (add1 q (Zpos XH))) (Zneg (add0 |b'| |y'2|))))
+                 (Z0 (pair2 (opp q) Z0)))))))))))
      ((Zneg |a'2|)
       (match y
         ((Z0 (pair2 Z0 Z0))
@@ -1351,189 +1358,3 @@
               (match p2
                 (((pair2 aa4 bb4)
                   (pair2 (Zpos g2) (pair2 (Zneg aa4) (Zneg bb4))))))))))))))))
-(prove
-  :lemma
-  (= (opp Z0) Z0))
-(prove
-  :lemma
-  (= (pred Z0) (Zneg XH)))
-(prove
-  :lemma
-  (= (succ XH) (XO XH)))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive)) (= (mul y x) (mul x y))))
-(prove
-  :lemma
-  (forall ((x Z) (y Z)) (= (myadd y x) (myadd x y))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x x) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (mul x XH) x)))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x Z0) x)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (opp (Zneg x)) (Zpos x))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (opp (Zpos x)) (Zneg x))))
-(prove
-  :lemma
-  (forall ((x Z)) (= (opp (opp x)) x)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (pred (Zneg x)) (Zneg (succ x)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub XH x) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ (XI x)) (XO (succ x)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ (XO x)) (XI x))))
-(prove
-  :lemma
-  (= (pred (Zpos XH)) Z0))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (mul x (XO y)) (XO (mul x y)))))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x (opp x)) Z0)))
-(prove
-  :lemma
-  (forall ((x Z) (y Z)) (= (myadd y (pred x)) (myadd x (pred y)))))
-(prove
-  :lemma
-  (forall ((x Z) (y Z)) (= (pred (myadd x y)) (myadd x (pred y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XO x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (succ x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ x) (sub (XI x) x))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XO x) x) x)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (succ x) x) XH)))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x (Zpos XH)) (opp (pred (opp x))))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XI x) XH) (XO x))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XO XH) x) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (succ x) XH) x)))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive) (z Positive))
-    (= (mul (mul x y) z) (mul x (mul y z)))))
-(prove
-  :lemma
-  (forall ((x Z) (y Z) (z Z))
-    (= (myadd (myadd x y) z) (myadd x (myadd y z)))))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive)) (= (sub x (mul x y)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive) (z Positive))
-    (= (sub (sub x z) y) (sub (sub x y) z))))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (sub (sub x y) y) (sub x (XO y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (mul x (sub x XH)) (sub (mul x x) x))))
-(prove
-  :lemma
-  (forall ((x Z)) (= (myadd x (opp (pred x))) (Zpos XH))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (myadd (Zneg x) (Zneg x)) (Zneg (XO x)))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (myadd (Zpos x) (Zpos x)) (Zpos (XO x)))))
-(prove
-  :lemma
-  (forall ((x Z) (y Z))
-    (= (myadd (opp x) (opp y)) (opp (myadd x y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI (XI x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI (XO x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (XI (succ x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (sub x XH)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub x (succ (succ x))) XH)))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (sub (XI x) (succ y)) (sub (XO x) y))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XI (succ x)) x) (succ (succ (succ x))))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XO x) (succ x)) (sub x XH))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (mul x (XI XH)) (sub (XO (XO x)) x))))
-(prove
-  :lemma
-  (forall ((x Positive) (y Positive))
-    (= (sub (sub x y) XH) (sub x (succ y)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (succ (succ x)) x) (XO XH))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (pred (Zpos (XO x))) (Zpos (sub (XO x) XH)))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XI (XI x)) x) (mul (XI XH) (succ x)))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (sub (XI XH) (XO x)) XH)))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XO (XO x)) XH) (XI (sub (XO x) XH)))))
-(prove
-  :lemma
-  (forall ((x Positive))
-    (= (sub (XI (XO x)) x) (succ (mul x (XI XH))))))
-(prove
-  :lemma
-  (forall ((x Positive)) (= (succ (sub (XO x) XH)) (XO x))))

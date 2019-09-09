@@ -8,7 +8,7 @@
      ((Cons b l0) (rev_append l0 (Cons b y))))))
 (define-fun
   qrev
-  (par (a1) (((x (List a1))) (List a1))) (rev_append x (_ Nil a1)))
+  (par (a1) (((x (List a1))) (List a1))) (rev_append x (_ nil Int)))
 (define-fun-rec
   app
   (par (a1) (((x (List a1)) (y (List a1))) (List a1)))

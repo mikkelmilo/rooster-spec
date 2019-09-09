@@ -38,6 +38,7 @@ module PV = Proofview
 
 let term_size = ref 5
 let test_size = ref 14
+let should_prune = ref true
 
 let mk_temp_file tmp_filename =
   if Sys.file_exists tmp_filename
@@ -131,7 +132,8 @@ let run_quickspec (hs_filename : string) (fnames : Libnames.qualid list) =
     
     
     let run_tipghc () = Sys.command ("tip-ghc " ^ hs_filename ^ ".hs > " ^ smtfilename) in
-    let run_tipspec () = let cmdstr = "tip-spec --prune --size " ^ string_of_int !term_size 
+    let prune_str = if !should_prune then " --prune " else " " in
+    let run_tipspec () = let cmdstr = "tip-spec" ^ prune_str ^ "--size " ^ string_of_int !term_size 
                                      ^ " --test-size " ^ string_of_int !test_size ^ " " 
                                      ^ include_fnames_arg 
                                      ^ smtfilename 

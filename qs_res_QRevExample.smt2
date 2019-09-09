@@ -1,37 +1,64 @@
 (declare-datatype
-  List :source List
+  list :source |[]|
   (par (a)
-    ((Nil :source Nil)
-     (Cons :source Cons (proj1-Cons a) (proj2-Cons (List a))))))
+    ((nil :source |[]|) (cons :source |:| (head a) (tail (list a))))))
 (define-fun-rec
-  zzrev_append :keep :source zzrev_append
-  (par (a1) (((x (List a1)) (y (List a1))) (List a1)))
+  myqrev :keep :source myqrev
+  (par (a1) (((x (list a1)) (y (list a1))) (list a1)))
   (match x
-    ((Nil y)
-     ((Cons b l0) (zzrev_append l0 (Cons b y))))))
-(define-fun
-  qzzrev :keep :source qzzrev
-  (par (a1) (((x (List a1))) (List a1))) (zzrev_append x (_ Nil a1)))
+    ((nil y)
+     ((cons b l0) (myqrev l0 (cons b y))))))
 (define-fun-rec
-  app :keep :source app
-  (par (a1) (((x (List a1)) (y (List a1))) (List a1)))
+  ++ :source ++
+  (par (a) (((x (list a)) (y (list a))) (list a)))
   (match x
-    ((Nil y)
-     ((Cons b l1) (Cons b (app l1 y))))))
+    ((nil y)
+     ((cons z xs) (cons z (++ xs y))))))
 (define-fun-rec
-  zzrev :keep :source zzrev
-  (par (a1) (((x (List a1))) (List a1)))
+  rev :keep :source rev
+  (par (a1) (((x (list a1))) (list a1)))
   (match x
-    ((Nil (_ Nil a1))
-     ((Cons y |l'|) (app (zzrev |l'|) (Cons y (_ Nil a1)))))))
+    ((nil (_ nil a1))
+     ((cons y |l'|) (++ (rev |l'|) (cons y (_ nil a1)))))))
 (prove
   :lemma
-  (par (x) (= (zzrev (_ Nil x)) (_ Nil x))))
+  (par (x) (= (rev (_ nil x)) (_ nil x))))
 (prove
   :lemma
-  (par (x) (forall ((y (List x))) (= (zzrev (zzrev y)) y))))
+  (par (x) (forall ((y (list x))) (= (++ y (_ nil x)) y))))
+(prove
+  :lemma
+  (par (x) (forall ((y (list x))) (= (++ (_ nil x) y) y))))
+(prove
+  :lemma
+  (par (x) (forall ((y (list x))) (= (myqrev y (_ nil x)) (rev y)))))
+(prove
+  :lemma
+  (par (x) (forall ((y (list x))) (= (myqrev (_ nil x) y) y))))
+(prove
+  :lemma
+  (par (x) (forall ((y (list x))) (= (rev (rev y)) y))))
 (prove
   :lemma
   (par (x)
-    (forall ((y x))
-      (= (zzrev (Cons y (_ Nil x))) (Cons y (_ Nil x))))))
+    (forall ((y (list x)) (z (list x)))
+      (= (++ (rev y) z) (myqrev y z)))))
+(prove
+  :lemma
+  (par (x)
+    (forall ((y (list x)) (z (list x)))
+      (= (rev (++ z y)) (myqrev y (rev z))))))
+(prove
+  :lemma
+  (par (x)
+    (forall ((y x)) (= (rev (cons y (_ nil x))) (cons y (_ nil x))))))
+(prove
+  :lemma
+  (par (x)
+    (forall ((y (list x)) (z (list x)) (x2 (list x)))
+      (= (++ (++ y z) x2) (++ y (++ z x2))))))
+(prove
+  :lemma
+  (par (x)
+    (forall ((y x) (z (list x)) (x2 (list x)))
+      (= (cons y (++ z x2)) (++ (cons y z) x2)))))

@@ -1,4 +1,4 @@
-module ZArithTest where
+module ZGroupTest where
 
 import qualified Prelude
 
@@ -1237,7 +1237,11 @@ lxor1 a b =
      Zpos b0 -> Zneg (succ_pos (lxor0 (pred_N a0) (Npos b0)));
      Zneg b0 -> of_N (lxor0 (pred_N a0) (pred_N b0))}}
 
-myadd :: Z -> Z -> Z
-myadd =
+isUnit :: Z -> Prelude.Bool
+isUnit n =
+  eqb0 n zero
+
+zadd :: Z -> Z -> Z
+zadd =
   add1
 

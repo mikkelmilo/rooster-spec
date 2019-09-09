@@ -21,6 +21,8 @@ let _ = extraction_language Haskell
 VERNAC COMMAND EXTEND Config CLASSIFIED AS QUERY
 | ["MaxTermSize" int(x)] -> [Ce_api.term_size := x]
 | ["MaxTestSize" int(x)] -> [Ce_api.test_size := x]
+| ["PruneConjectures"] -> [Ce_api.should_prune := true]
+| ["DontPruneConjectures"] -> [Ce_api.should_prune := false]
 END
 
 

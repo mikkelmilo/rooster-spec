@@ -7,8 +7,9 @@ Add LoadPath "~/Documents/cpdt/src" as Cpdt.
 Require Import Cpdt.CpdtTactics.
 
 
-(* DiscoverLemmas "Test" length rev rev_append hd tail map fold_right existsb forallb.  *)
 
+(* DiscoverLemmas "Test" length rev rev_append hd tail map fold_right existsb forallb.
+ *)
 (* 
 Lemma lemma_1 : 
   forall (x : Type), 

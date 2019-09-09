@@ -1,0 +1,1165 @@
+A.hs:130:1: error: Illegal binding of built-in syntax: ()
+A.hs:130:1: error: Illegal binding of built-in syntax: ()
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE ImplicitParams #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+module A where
+import qualified Text.Show.Functions
+import qualified Data.Constraint as QS
+import qualified Data.Typeable as T
+import qualified GHC.Generics as G
+import qualified Prelude as P
+import qualified QuickSpec as QS
+import qualified Test.Feat as F
+import qualified Test.QuickCheck as QC
+import qualified Test.QuickCheck.Gen.Unsafe as QU
+data Pair a b = Pair2 a b
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Pair)
+instance
+  (F.Enumerable a, F.Enumerable b) => QC.Arbitrary (Pair a b)
+  where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance
+  (QC.Arbitrary a, QC.CoArbitrary a, QC.Arbitrary b,
+   QC.CoArbitrary b) =>
+    QC.CoArbitrary (Pair a b)
+  where
+  coarbitrary = QC.genericCoarbitrary
+data List c = Nil | Cons c (List c)
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''List)
+instance (F.Enumerable c) => QC.Arbitrary (List c) where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance
+  (QC.Arbitrary c, QC.CoArbitrary c) => QC.CoArbitrary (List c)
+  where
+  coarbitrary = QC.genericCoarbitrary
+data Uint =
+  Nil2 | D0 Uint | D1 Uint | D2 Uint | D3 Uint | D4 Uint | D5 Uint |
+  D6 Uint | D7 Uint | D8 Uint | D9 Uint
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Uint)
+instance QC.Arbitrary Uint where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary Uint where
+  coarbitrary = QC.genericCoarbitrary
+data Reflect = ReflectT | ReflectF
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Reflect)
+instance QC.Arbitrary Reflect where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary Reflect where
+  coarbitrary = QC.genericCoarbitrary
+data Nat = O | S Nat
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Nat)
+instance QC.Arbitrary Nat where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary Nat where
+  coarbitrary = QC.genericCoarbitrary
+data Tree = E | T0 Tree Nat Nat Tree
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Tree)
+instance QC.Arbitrary Tree where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary Tree where
+  coarbitrary = QC.genericCoarbitrary
+data Maybe a2 = Nothing | Just a2
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Maybe)
+instance (F.Enumerable a2) => QC.Arbitrary (Maybe a2) where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance
+  (QC.Arbitrary a2, QC.CoArbitrary a2) => QC.CoArbitrary (Maybe a2)
+  where
+  coarbitrary = QC.genericCoarbitrary
+data Int2 = Pos Uint | Neg Uint
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Int2)
+instance QC.Arbitrary Int2 where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary Int2 where
+  coarbitrary = QC.genericCoarbitrary
+data Comparison = Eq2 | Lt | Gt
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''Comparison)
+instance QC.Arbitrary Comparison where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary Comparison where
+  coarbitrary = QC.genericCoarbitrary
+data CompareSpecT = CompEqT | CompLtT | CompGtT
+  deriving (P.Eq, P.Ord, P.Show, G.Generic, T.Typeable)
+F.deriveEnumerable (''CompareSpecT)
+instance QC.Arbitrary CompareSpecT where
+  arbitrary =
+    do k <- QC.sized P.return
+       n <- QC.choose (0, (k P.* (2)) P.+ (2))
+       F.uniform n
+instance QC.CoArbitrary CompareSpecT where
+  coarbitrary = QC.genericCoarbitrary
+newtype () =
+  Mk
+    (forall any .
+       (QC.Arbitrary any, F.Enumerable any, P.Ord any) => any)
+get (Mk x) = x
+(.) ::
+  forall any .
+    (QC.Arbitrary any, F.Enumerable any, P.Ord any, ?imp :: ()) => any
+(.) = get (?imp)
+instance QC.Arbitrary () where
+  arbitrary =
+    do x <- QU.capture
+       case x of QU.Capture y -> P.return (Mk (y QC.arbitrary))
+gen :: QC.Gen (QS.Dict (?imp :: ()))
+gen =
+  do x <- QC.arbitrary
+     let ?imp = x in P.return QS.Dict
+zero :: forall . (?imp :: ()) => Nat
+zero = O
+xorb :: forall . (?imp :: ()) => P.Bool -> P.Bool -> P.Bool
+xorb P.True z = P.not z
+xorb P.False z = z
+two :: forall . (?imp :: ()) => Nat
+two = S (S O)
+tailadd :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+tailadd O y2 = y2
+tailadd (S n0) y2 = tailadd n0 (S y2)
+tailaddmul :: forall . (?imp :: ()) => Nat -> Nat -> Nat -> Nat
+tailaddmul x2 O z2 = x2
+tailaddmul x2 (S n02) z2 = tailaddmul (tailadd z2 x2) n02 z2
+tailmul :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+tailmul x3 y3 = tailaddmul O x3 y3
+succ0 :: forall . (?imp :: ()) => Nat -> Nat
+succ0 x4 = S x4
+succ :: forall . (?imp :: ()) => Uint -> Uint
+succ Nil2 = D1 Nil2
+succ (D0 d0) = D1 d0
+succ (D1 d02) = D2 d02
+succ (D2 d03) = D3 d03
+succ (D3 d04) = D4 d04
+succ (D4 d05) = D5 d05
+succ (D5 d06) = D6 d06
+succ (D6 d07) = D7 d07
+succ (D7 d08) = D8 d08
+succ (D8 d09) = D9 d09
+succ (D9 d010) = D0 (succ d010)
+tolittleuint :: forall . (?imp :: ()) => Nat -> Uint -> Uint
+tolittleuint O y4 = y4
+tolittleuint (S n03) y4 = tolittleuint n03 (succ y4)
+sub :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+sub O y5 = O
+sub (S i) O = S i
+sub (S i) (S l) = sub i l
+sqrtiter ::
+  forall . (?imp :: ()) => Nat -> Nat -> Nat -> Nat -> Nat
+sqrtiter O y6 z3 x22 = y6
+sqrtiter (S j) y6 z3 O = sqrtiter j (S y6) (S (S z3)) (S (S z3))
+sqrtiter (S j) y6 z3 (S r) = sqrtiter j y6 z3 r
+sqrt :: forall . (?imp :: ()) => Nat -> Nat
+sqrt x5 = sqrtiter x5 O O O
+snd ::
+  forall a1 a22 .
+    (QC.Arbitrary a1, F.Enumerable a1, P.Ord a1, QC.Arbitrary a22,
+     F.Enumerable a22, P.Ord a22, ?imp :: ()) =>
+      Pair a1 a22 -> a22
+snd (Pair2 y7 z4) = z4
+revapp :: forall . (?imp :: ()) => Uint -> Uint -> Uint
+revapp Nil2 y8 = y8
+revapp (D0 d011) y8 = revapp d011 (D0 y8)
+revapp (D1 d022) y8 = revapp d022 (D1 y8)
+revapp (D2 d032) y8 = revapp d032 (D2 y8)
+revapp (D3 d042) y8 = revapp d042 (D3 y8)
+revapp (D4 d052) y8 = revapp d052 (D4 y8)
+revapp (D5 d062) y8 = revapp d062 (D5 y8)
+revapp (D6 d072) y8 = revapp d072 (D6 y8)
+revapp (D7 d082) y8 = revapp d082 (D7 y8)
+revapp (D8 d092) y8 = revapp d092 (D8 y8)
+revapp (D9 d0102) y8 = revapp d0102 (D9 y8)
+rev :: forall . (?imp :: ()) => Uint -> Uint
+rev x6 = revapp x6 Nil2
+touint :: forall . (?imp :: ()) => Nat -> Uint
+touint x7 = rev (tolittleuint x7 (D0 Nil2))
+toint :: forall . (?imp :: ()) => Nat -> Int2
+toint x8 = Pos (touint x8)
+pred :: forall . (?imp :: ()) => Nat -> Nat
+pred O = O
+pred (S u) = u
+one :: forall . (?imp :: ()) => Nat
+one = S O
+ofuintacc :: forall . (?imp :: ()) => Uint -> Nat -> Nat
+ofuintacc Nil2 y9 = y9
+ofuintacc (D0 d012) y9 =
+  ofuintacc
+    d012 (tailmul (S (S (S (S (S (S (S (S (S (S O)))))))))) y9)
+ofuintacc (D1 d023) y9 =
+  ofuintacc
+    d023 (S (tailmul (S (S (S (S (S (S (S (S (S (S O)))))))))) y9))
+ofuintacc (D2 d033) y9 =
+  ofuintacc
+    d033 (S (S (tailmul (S (S (S (S (S (S (S (S (S (S O)))))))))) y9)))
+ofuintacc (D3 d043) y9 =
+  ofuintacc
+    d043
+    (S (S (S (tailmul (S (S (S (S (S (S (S (S (S (S O)))))))))) y9))))
+ofuintacc (D4 d053) y9 =
+  ofuintacc
+    d053
+    (S (S (S (S (tailmul
+                   (S (S (S (S (S (S (S (S (S (S O)))))))))) y9)))))
+ofuintacc (D5 d063) y9 =
+  ofuintacc
+    d063
+    (S (S (S (S (S (tailmul
+                      (S (S (S (S (S (S (S (S (S (S O)))))))))) y9))))))
+ofuintacc (D6 d073) y9 =
+  ofuintacc
+    d073
+    (S (S (S (S (S (S (tailmul
+                         (S (S (S (S (S (S (S (S (S (S O)))))))))) y9)))))))
+ofuintacc (D7 d083) y9 =
+  ofuintacc
+    d083
+    (S (S (S (S (S (S (S (tailmul
+                            (S (S (S (S (S (S (S (S (S (S O)))))))))) y9))))))))
+ofuintacc (D8 d093) y9 =
+  ofuintacc
+    d093
+    (S (S (S (S (S (S (S (S (tailmul
+                               (S (S (S (S (S (S (S (S (S (S O)))))))))) y9)))))))))
+ofuintacc (D9 d0103) y9 =
+  ofuintacc
+    d0103
+    (S (S (S (S (S (S (S (S (S (tailmul
+                                  (S (S (S (S (S (S (S (S (S (S O)))))))))) y9))))))))))
+ofuint :: forall . (?imp :: ()) => Uint -> Nat
+ofuint x9 = ofuintacc x9 O
+nzhead :: forall . (?imp :: ()) => Uint -> Uint
+nzhead x10 =
+  case x10 of
+    D0 d013 -> nzhead d013
+    _ -> x10
+unorm :: forall . (?imp :: ()) => Uint -> Uint
+unorm x11 =
+  let wild = nzhead x11
+    in case wild of
+         Nil2 -> D0 Nil2
+         _ -> wild
+norm :: forall . (?imp :: ()) => Int2 -> Int2
+norm (Pos d014) = Pos (unorm d014)
+norm (Neg d024) =
+  let wild1 = nzhead d024
+    in case wild1 of
+         Nil2 -> Pos (D0 Nil2)
+         _ -> Neg wild1
+ofint :: forall . (?imp :: ()) => Int2 -> Maybe Nat
+ofint x12 =
+  case norm x12 of
+    Pos v -> Just (ofuint v)
+    Neg y10 -> Nothing :: Maybe Nat
+natrect ::
+  forall a12 .
+    (QC.Arbitrary a12, F.Enumerable a12, P.Ord a12, ?imp :: ()) =>
+      a12 -> (Nat -> a12 -> a12) -> Nat -> a12
+natrect x13 y11 O = x13
+natrect x13 y11 (S n04) = P.id (P.id y11 n04) (natrect x13 y11 n04)
+recursion ::
+  forall a13 .
+    (QC.Arbitrary a13, F.Enumerable a13, P.Ord a13, ?imp :: ()) =>
+      a13 -> (Nat -> a13 -> a13) -> Nat -> a13
+recursion x14 y12 z5 = natrect x14 y12 z5
+natrec ::
+  forall a14 .
+    (QC.Arbitrary a14, F.Enumerable a14, P.Ord a14, ?imp :: ()) =>
+      a14 -> (Nat -> a14 -> a14) -> Nat -> a14
+natrec x15 y13 z6 = natrect x15 y13 z6
+min0 :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+min0 O y14 = O
+min0 (S m) O = O
+min0 (S m) (S o) = S (min0 m o)
+min :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+min O y15 = O
+min (S n2) O = O
+min (S n2) (S m2) = S (min n2 m2)
+max0 :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+max0 O y16 = y16
+max0 (S n3) O = S n3
+max0 (S n3) (S m3) = S (max0 n3 m3)
+max :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+max O y17 = y17
+max (S n4) O = S n4
+max (S n4) (S m4) = S (max n4 m4)
+log2iter ::
+  forall . (?imp :: ()) => Nat -> Nat -> Nat -> Nat -> Nat
+log2iter O y18 z7 x23 = y18
+log2iter (S k2) y18 z7 O = log2iter k2 (S y18) (S z7) z7
+log2iter (S k2) y18 z7 (S p) = log2iter k2 y18 (S z7) p
+log2 :: forall . (?imp :: ()) => Nat -> Nat
+log2 x16 = log2iter (pred x16) O (S O) O
+leb :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+leb O y19 = P.True
+leb (S n5) O = P.False
+leb (S n5) (S m5) = leb n5 m5
+ltb :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+ltb x17 y20 = leb (S x17) y20
+lookup :: forall . (?imp :: ()) => Nat -> Tree -> Nat
+lookup x18 E = O
+lookup x18 (T0 tl k3 w tr) =
+  case ltb x18 k3 of
+    P.True -> lookup x18 tl
+    P.False ->
+      case ltb k3 x18 of
+        P.True -> lookup x18 tr
+        P.False -> w
+iter ::
+  forall a15 .
+    (QC.Arbitrary a15, F.Enumerable a15, P.Ord a15, ?imp :: ()) =>
+      Nat -> (a15 -> a15) -> a15 -> a15
+iter x19 y21 z8 = natrect z8 (\ x24 -> y21) x19
+insert :: forall . (?imp :: ()) => Nat -> Nat -> Tree -> Tree
+insert x20 y22 E = T0 E x20 y22 E
+insert x20 y22 (T0 a3 y23 v2 b2) =
+  case ltb x20 y23 of
+    P.True -> T0 (insert x20 y22 a3) y23 v2 b2
+    P.False ->
+      case ltb y23 x20 of
+        P.True -> T0 a3 y23 v2 (insert x20 y22 b2)
+        P.False -> T0 a3 x20 y22 b2
+iffreflect :: forall . (?imp :: ()) => P.Bool -> Reflect
+iffreflect P.True = ReflectT
+iffreflect P.False = ReflectF
+lebspec0 :: forall . (?imp :: ()) => Nat -> Nat -> Reflect
+lebspec0 x21 y24 = iffreflect (leb x21 y24)
+ltbspec0 :: forall . (?imp :: ()) => Nat -> Nat -> Reflect
+ltbspec0 x25 y25 = iffreflect (ltb x25 y25)
+fst ::
+  forall a16 a23 .
+    (QC.Arbitrary a16, F.Enumerable a16, P.Ord a16, QC.Arbitrary a23,
+     F.Enumerable a23, P.Ord a23, ?imp :: ()) =>
+      Pair a16 a23 -> a16
+fst (Pair2 y26 z9) = y26
+even :: forall . (?imp :: ()) => Nat -> P.Bool
+even O = P.True
+even (S O) = P.False
+even (S (S n6)) = even n6
+odd :: forall . (?imp :: ()) => Nat -> P.Bool
+odd x26 = P.not (even x26)
+eqb :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+eqb O O = P.True
+eqb O (S z10) = P.False
+eqb (S n7) O = P.False
+eqb (S n7) (S m6) = eqb n7 m6
+eqbspec :: forall . (?imp :: ()) => Nat -> Nat -> Reflect
+eqbspec x27 y27 = iffreflect (eqb x27 y27)
+eqrect ::
+  forall a17 a24 .
+    (QC.Arbitrary a17, F.Enumerable a17, P.Ord a17, QC.Arbitrary a24,
+     F.Enumerable a24, P.Ord a24, ?imp :: ()) =>
+      a17 -> a24 -> a17 -> a24
+eqrect x28 y28 z11 = y28
+eqdec :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+eqdec x29 y29 =
+  P.id
+    (natrect
+       (\ m7 ->
+          case m7 of
+            O -> P.True
+            S z12 -> P.False)
+       (\ x210 ->
+          \ iHn ->
+            \ n8 ->
+              case n8 of
+                O -> P.False
+                S m0 -> P.id iHn m0)
+       x29)
+    y29
+elements ::
+  forall .
+    (?imp :: ()) => Tree -> List (Pair Nat Nat) -> List (Pair Nat Nat)
+elements E y30 = y30
+elements (T0 a4 k4 v3 b3) y30 =
+  elements a4 (Cons (Pair2 k4 v3) (elements b3 y30))
+elements2 :: forall . (?imp :: ()) => Tree -> List (Pair Nat Nat)
+elements2 x30 = elements x30 (Nil :: List (Pair Nat Nat))
+divmod ::
+  forall . (?imp :: ()) => Nat -> Nat -> Nat -> Nat -> Pair Nat Nat
+divmod O y31 z13 x211 = Pair2 z13 x211
+divmod (S x31) y31 z13 O = divmod x31 y31 (S z13) y31
+divmod (S x31) y31 z13 (S u2) = divmod x31 y31 z13 u2
+gcd :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+gcd O y32 = y32
+gcd (S a5) y32 = gcd (sub a5 (snd (divmod y32 a5 O a5))) (S a5)
+modulo :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+modulo x32 O = O
+modulo x32 (S y33) = sub y33 (snd (divmod x32 y33 O y33))
+div22 :: forall . (?imp :: ()) => Nat -> Nat
+div22 O = O
+div22 (S O) = O
+div22 (S (S n9)) = S (div22 n9)
+shiftr :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+shiftr x33 y34 = natrect x33 (\ z14 -> \ x212 -> div22 x212) y34
+testbit :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+testbit x34 O = odd x34
+testbit x34 (S n05) = testbit (div22 x34) n05
+div2 :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+div2 x35 O = O
+div2 x35 (S y35) = fst (divmod x35 y35 O y35)
+default0 :: forall . (?imp :: ()) => Nat
+default0 = O
+compareSpec2Type ::
+  forall . (?imp :: ()) => Comparison -> CompareSpecT
+compareSpec2Type Eq2 = CompEqT
+compareSpec2Type Lt = CompLtT
+compareSpec2Type Gt = CompGtT
+compare0 :: forall . (?imp :: ()) => Nat -> Nat -> Comparison
+compare0 O O = Eq2
+compare0 O (S z15) = Lt
+compare0 (S n10) O = Gt
+compare0 (S n10) (S m8) = compare0 n10 m8
+log2up :: forall . (?imp :: ()) => Nat -> Nat
+log2up x36 =
+  case compare0 (S O) x36 of
+    Lt -> S (log2 (pred x36))
+    _ -> O
+sqrtup :: forall . (?imp :: ()) => Nat -> Nat
+sqrtup x37 =
+  case compare0 O x37 of
+    Lt -> S (sqrt (pred x37))
+    _ -> O
+compare :: forall . (?imp :: ()) => Nat -> Nat -> Comparison
+compare O O = Eq2
+compare O (S z16) = Lt
+compare (S n11) O = Gt
+compare (S n11) (S m9) = compare n11 m9
+maxcasestrong ::
+  forall a18 .
+    (QC.Arbitrary a18, F.Enumerable a18, P.Ord a18, ?imp :: ()) =>
+      Nat -> Nat -> (Nat -> Nat -> a18 -> a18) -> a18 -> a18 -> a18
+maxcasestrong x38 y36 z17 x213 x39 =
+  case compareSpec2Type (compare x38 y36) of
+    CompGtT -> P.id (P.id (P.id z17 x38) (max x38 y36)) x213
+    _ -> P.id (P.id (P.id z17 y36) (max x38 y36)) x39
+maxcase ::
+  forall a19 .
+    (QC.Arbitrary a19, F.Enumerable a19, P.Ord a19, ?imp :: ()) =>
+      Nat -> Nat -> (Nat -> Nat -> a19 -> a19) -> a19 -> a19 -> a19
+maxcase x40 y37 z18 x214 x310 = maxcasestrong x40 y37 z18 x214 x310
+maxdec :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+maxdec x41 y38 =
+  maxcase x41 y38 (\ z19 -> \ x215 -> \ h0 -> h0) P.True P.False
+maxdec0 :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+maxdec0 x42 y39 = maxdec x42 y39
+maxcasestrong0 ::
+  forall a110 .
+    (QC.Arbitrary a110, F.Enumerable a110, P.Ord a110, ?imp :: ()) =>
+      Nat -> Nat -> a110 -> a110 -> a110
+maxcasestrong0 x43 y40 z20 x216 =
+  maxcasestrong x43 y40 (\ x311 -> \ x44 -> \ x1 -> x1) z20 x216
+maxcase0 ::
+  forall a111 .
+    (QC.Arbitrary a111, F.Enumerable a111, P.Ord a111, ?imp :: ()) =>
+      Nat -> Nat -> a111 -> a111 -> a111
+maxcase0 x45 y41 z21 x217 = maxcasestrong0 x45 y41 z21 x217
+mincasestrong ::
+  forall a112 .
+    (QC.Arbitrary a112, F.Enumerable a112, P.Ord a112, ?imp :: ()) =>
+      Nat -> Nat -> (Nat -> Nat -> a112 -> a112) -> a112 -> a112 -> a112
+mincasestrong x46 y42 z22 x218 x312 =
+  case compareSpec2Type (compare x46 y42) of
+    CompGtT -> P.id (P.id (P.id z22 y42) (min x46 y42)) x312
+    _ -> P.id (P.id (P.id z22 x46) (min x46 y42)) x218
+mincase ::
+  forall a113 .
+    (QC.Arbitrary a113, F.Enumerable a113, P.Ord a113, ?imp :: ()) =>
+      Nat -> Nat -> (Nat -> Nat -> a113 -> a113) -> a113 -> a113 -> a113
+mincase x47 y43 z23 x219 x313 = mincasestrong x47 y43 z23 x219 x313
+mindec :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+mindec x48 y44 =
+  mincase x48 y44 (\ z24 -> \ x220 -> \ h02 -> h02) P.True P.False
+mindec0 :: forall . (?imp :: ()) => Nat -> Nat -> P.Bool
+mindec0 x49 y45 = mindec x49 y45
+mincasestrong0 ::
+  forall a114 .
+    (QC.Arbitrary a114, F.Enumerable a114, P.Ord a114, ?imp :: ()) =>
+      Nat -> Nat -> a114 -> a114 -> a114
+mincasestrong0 x50 y46 z25 x221 =
+  mincasestrong x50 y46 (\ x314 -> \ x410 -> \ x110 -> x110) z25 x221
+mincase0 ::
+  forall a115 .
+    (QC.Arbitrary a115, F.Enumerable a115, P.Ord a115, ?imp :: ()) =>
+      Nat -> Nat -> a115 -> a115 -> a115
+mincase0 x51 y47 z26 x222 = mincasestrong0 x51 y47 z26 x222
+compSpec2Type ::
+  forall a116 .
+    (QC.Arbitrary a116, F.Enumerable a116, P.Ord a116, ?imp :: ()) =>
+      a116 -> a116 -> Comparison -> CompareSpecT
+compSpec2Type x52 y48 z27 = compareSpec2Type z27
+b2n :: forall . (?imp :: ()) => P.Bool -> Nat
+b2n P.True = S O
+b2n P.False = O
+andrect ::
+  forall a117 .
+    (QC.Arbitrary a117, F.Enumerable a117, P.Ord a117, ?imp :: ()) =>
+      a117 -> a117
+andrect x53 = x53
+andrec ::
+  forall a118 .
+    (QC.Arbitrary a118, F.Enumerable a118, P.Ord a118, ?imp :: ()) =>
+      a118 -> a118
+andrec x54 = x54
+add :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+add O y49 = y49
+add (S q) y49 = S (add q y49)
+double :: forall . (?imp :: ()) => Nat -> Nat
+double x55 = add x55 x55
+ones :: forall . (?imp :: ()) => Nat -> Nat
+ones x56 = pred (natrect (S O) (\ y50 -> \ z28 -> double z28) x56)
+shiftl :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+shiftl x57 y51 = natrect x57 (\ z29 -> \ x223 -> double x223) y51
+mul :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+mul O y52 = O
+mul (S p2) y52 = add y52 (mul p2 y52)
+bitwise ::
+  forall .
+    (?imp :: ()) =>
+      (P.Bool -> P.Bool -> P.Bool) -> Nat -> Nat -> Nat -> Nat
+bitwise x58 O z30 x224 = O
+bitwise x58 (S n12) z30 x224 =
+  case P.id (P.id x58 (odd z30)) (odd x224) of
+    P.True ->
+      add
+        (S O) (mul (S (S O)) (bitwise x58 n12 (div22 z30) (div22 x224)))
+    P.False ->
+      add O (mul (S (S O)) (bitwise x58 n12 (div22 z30) (div22 x224)))
+land :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+land x59 y53 =
+  bitwise (\ z31 -> \ x225 -> z31 P.&& x225) x59 x59 y53
+ldiff :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+ldiff x60 y54 =
+  bitwise (\ b0 -> \ b4 -> b0 P.&& (P.not b4)) x60 x60 y54
+clearbit :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+clearbit x61 y55 =
+  ldiff x61 (natrect (S O) (\ z32 -> \ x226 -> double x226) y55)
+lor :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+lor x62 y56 =
+  bitwise (\ z33 -> \ x227 -> z33 P.|| x227) (max0 x62 y56) x62 y56
+setbit :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+setbit x63 y57 =
+  lor x63 (natrect (S O) (\ z34 -> \ x228 -> double x228) y57)
+lxor :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+lxor x64 y58 =
+  bitwise (\ z35 -> \ x229 -> xorb z35 x229) (max0 x64 y58) x64 y58
+lnot :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+lnot x65 y59 = lxor x65 (ones y59)
+lcm :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+lcm x66 y60 = mul x66 (div2 y60 (gcd x66 y60))
+pow :: forall . (?imp :: ()) => Nat -> Nat -> Nat
+pow x67 O = S O
+pow x67 (S m02) = mul x67 (pow x67 m02)
+square :: forall . (?imp :: ()) => Nat -> Nat
+square x68 = mul x68 x68
+sig =
+  [QS.con
+     "."
+     ((\ QS.Dict -> (.)) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A),
+   QS.con "zero" ((\ QS.Dict -> zero) :: QS.Dict (?imp :: ()) -> Nat),
+   QS.predicate
+     "xorb"
+     ((\ QS.Dict -> xorb) ::
+        QS.Dict (?imp :: ()) -> P.Bool -> P.Bool -> P.Bool),
+   QS.con "two" ((\ QS.Dict -> two) :: QS.Dict (?imp :: ()) -> Nat),
+   QS.con
+     "tailadd"
+     ((\ QS.Dict -> tailadd) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "tailaddmul"
+     ((\ QS.Dict -> tailaddmul) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat -> Nat),
+   QS.con
+     "tailmul"
+     ((\ QS.Dict -> tailmul) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "succ0"
+     ((\ QS.Dict -> succ0) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "succ"
+     ((\ QS.Dict -> succ) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+   QS.con
+     "tolittleuint"
+     ((\ QS.Dict -> tolittleuint) ::
+        QS.Dict (?imp :: ()) -> Nat -> Uint -> Uint),
+   QS.con
+     "sub"
+     ((\ QS.Dict -> sub) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "sqrtiter"
+     ((\ QS.Dict -> sqrtiter) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat -> Nat -> Nat),
+   QS.con
+     "sqrt" ((\ QS.Dict -> sqrt) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "snd"
+     ((\ QS.Dict -> snd) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A,
+           QC.Arbitrary QS.B, F.Enumerable QS.B, P.Ord QS.B, ?imp :: ()) ->
+          Pair QS.A QS.B -> QS.B),
+   QS.con
+     "revapp"
+     ((\ QS.Dict -> revapp) ::
+        QS.Dict (?imp :: ()) -> Uint -> Uint -> Uint),
+   QS.con
+     "rev" ((\ QS.Dict -> rev) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+   QS.con
+     "touint"
+     ((\ QS.Dict -> touint) :: QS.Dict (?imp :: ()) -> Nat -> Uint),
+   QS.con
+     "toint"
+     ((\ QS.Dict -> toint) :: QS.Dict (?imp :: ()) -> Nat -> Int2),
+   QS.con
+     "pred" ((\ QS.Dict -> pred) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con "one" ((\ QS.Dict -> one) :: QS.Dict (?imp :: ()) -> Nat),
+   QS.con
+     "ofuintacc"
+     ((\ QS.Dict -> ofuintacc) ::
+        QS.Dict (?imp :: ()) -> Uint -> Nat -> Nat),
+   QS.con
+     "ofuint"
+     ((\ QS.Dict -> ofuint) :: QS.Dict (?imp :: ()) -> Uint -> Nat),
+   QS.con
+     "nzhead"
+     ((\ QS.Dict -> nzhead) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+   QS.con
+     "unorm"
+     ((\ QS.Dict -> unorm) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+   QS.con
+     "norm"
+     ((\ QS.Dict -> norm) :: QS.Dict (?imp :: ()) -> Int2 -> Int2),
+   QS.con
+     "ofint"
+     ((\ QS.Dict -> ofint) ::
+        QS.Dict (?imp :: ()) -> Int2 -> Maybe Nat),
+   QS.con
+     "natrect"
+     ((\ QS.Dict -> natrect) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A -> (Nat -> QS.A -> QS.A) -> Nat -> QS.A),
+   QS.con
+     "recursion"
+     ((\ QS.Dict -> recursion) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A -> (Nat -> QS.A -> QS.A) -> Nat -> QS.A),
+   QS.con
+     "natrec"
+     ((\ QS.Dict -> natrec) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A -> (Nat -> QS.A -> QS.A) -> Nat -> QS.A),
+   QS.con
+     "min0"
+     ((\ QS.Dict -> min0) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "min"
+     ((\ QS.Dict -> min) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "max0"
+     ((\ QS.Dict -> max0) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "max"
+     ((\ QS.Dict -> max) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "log2iter"
+     ((\ QS.Dict -> log2iter) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat -> Nat -> Nat),
+   QS.con
+     "log2" ((\ QS.Dict -> log2) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.predicate
+     "leb"
+     ((\ QS.Dict -> leb) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.predicate
+     "ltb"
+     ((\ QS.Dict -> ltb) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.con
+     "lookup"
+     ((\ QS.Dict -> lookup) ::
+        QS.Dict (?imp :: ()) -> Nat -> Tree -> Nat),
+   QS.con
+     "iter"
+     ((\ QS.Dict -> iter) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat -> (QS.A -> QS.A) -> QS.A -> QS.A),
+   QS.con
+     "insert"
+     ((\ QS.Dict -> insert) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Tree -> Tree),
+   QS.con
+     "iffreflect"
+     ((\ QS.Dict -> iffreflect) ::
+        QS.Dict (?imp :: ()) -> P.Bool -> Reflect),
+   QS.con
+     "lebspec0"
+     ((\ QS.Dict -> lebspec0) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Reflect),
+   QS.con
+     "ltbspec0"
+     ((\ QS.Dict -> ltbspec0) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Reflect),
+   QS.con
+     "fst"
+     ((\ QS.Dict -> fst) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A,
+           QC.Arbitrary QS.B, F.Enumerable QS.B, P.Ord QS.B, ?imp :: ()) ->
+          Pair QS.A QS.B -> QS.A),
+   QS.predicate
+     "even"
+     ((\ QS.Dict -> even) :: QS.Dict (?imp :: ()) -> Nat -> P.Bool),
+   QS.predicate
+     "odd"
+     ((\ QS.Dict -> odd) :: QS.Dict (?imp :: ()) -> Nat -> P.Bool),
+   QS.predicate
+     "eqb"
+     ((\ QS.Dict -> eqb) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.con
+     "eqbspec"
+     ((\ QS.Dict -> eqbspec) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Reflect),
+   QS.con
+     "eqrect"
+     ((\ QS.Dict -> eqrect) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A,
+           QC.Arbitrary QS.B, F.Enumerable QS.B, P.Ord QS.B, ?imp :: ()) ->
+          QS.A -> QS.B -> QS.A -> QS.B),
+   QS.predicate
+     "eqdec"
+     ((\ QS.Dict -> eqdec) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.con
+     "elements"
+     ((\ QS.Dict -> elements) ::
+        QS.Dict (?imp :: ()) ->
+          Tree -> List (Pair Nat Nat) -> List (Pair Nat Nat)),
+   QS.con
+     "elements2"
+     ((\ QS.Dict -> elements2) ::
+        QS.Dict (?imp :: ()) -> Tree -> List (Pair Nat Nat)),
+   QS.con
+     "divmod"
+     ((\ QS.Dict -> divmod) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat -> Nat -> Pair Nat Nat),
+   QS.con
+     "gcd"
+     ((\ QS.Dict -> gcd) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "modulo"
+     ((\ QS.Dict -> modulo) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "div22"
+     ((\ QS.Dict -> div22) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "shiftr"
+     ((\ QS.Dict -> shiftr) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.predicate
+     "testbit"
+     ((\ QS.Dict -> testbit) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.con
+     "div2"
+     ((\ QS.Dict -> div2) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "default0"
+     ((\ QS.Dict -> default0) :: QS.Dict (?imp :: ()) -> Nat),
+   QS.con
+     "compareSpec2Type"
+     ((\ QS.Dict -> compareSpec2Type) ::
+        QS.Dict (?imp :: ()) -> Comparison -> CompareSpecT),
+   QS.con
+     "compare0"
+     ((\ QS.Dict -> compare0) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Comparison),
+   QS.con
+     "log2up"
+     ((\ QS.Dict -> log2up) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "sqrtup"
+     ((\ QS.Dict -> sqrtup) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "compare"
+     ((\ QS.Dict -> compare) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Comparison),
+   QS.con
+     "maxcasestrong"
+     ((\ QS.Dict -> maxcasestrong) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat ->
+            Nat -> (Nat -> Nat -> QS.A -> QS.A) -> QS.A -> QS.A -> QS.A),
+   QS.con
+     "maxcase"
+     ((\ QS.Dict -> maxcase) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat ->
+            Nat -> (Nat -> Nat -> QS.A -> QS.A) -> QS.A -> QS.A -> QS.A),
+   QS.predicate
+     "maxdec"
+     ((\ QS.Dict -> maxdec) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.predicate
+     "maxdec0"
+     ((\ QS.Dict -> maxdec0) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.con
+     "maxcasestrong0"
+     ((\ QS.Dict -> maxcasestrong0) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat -> Nat -> QS.A -> QS.A -> QS.A),
+   QS.con
+     "maxcase0"
+     ((\ QS.Dict -> maxcase0) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat -> Nat -> QS.A -> QS.A -> QS.A),
+   QS.con
+     "mincasestrong"
+     ((\ QS.Dict -> mincasestrong) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat ->
+            Nat -> (Nat -> Nat -> QS.A -> QS.A) -> QS.A -> QS.A -> QS.A),
+   QS.con
+     "mincase"
+     ((\ QS.Dict -> mincase) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat ->
+            Nat -> (Nat -> Nat -> QS.A -> QS.A) -> QS.A -> QS.A -> QS.A),
+   QS.predicate
+     "mindec"
+     ((\ QS.Dict -> mindec) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.predicate
+     "mindec0"
+     ((\ QS.Dict -> mindec0) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> P.Bool),
+   QS.con
+     "mincasestrong0"
+     ((\ QS.Dict -> mincasestrong0) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat -> Nat -> QS.A -> QS.A -> QS.A),
+   QS.con
+     "mincase0"
+     ((\ QS.Dict -> mincase0) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          Nat -> Nat -> QS.A -> QS.A -> QS.A),
+   QS.con
+     "compSpec2Type"
+     ((\ QS.Dict -> compSpec2Type) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A -> QS.A -> Comparison -> CompareSpecT),
+   QS.con
+     "b2n"
+     ((\ QS.Dict -> b2n) :: QS.Dict (?imp :: ()) -> P.Bool -> Nat),
+   QS.con
+     "andrect"
+     ((\ QS.Dict -> andrect) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A -> QS.A),
+   QS.con
+     "andrec"
+     ((\ QS.Dict -> andrec) ::
+        QS.Dict
+          (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+          QS.A -> QS.A),
+   QS.con
+     "add"
+     ((\ QS.Dict -> add) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "double"
+     ((\ QS.Dict -> double) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "ones" ((\ QS.Dict -> ones) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.con
+     "shiftl"
+     ((\ QS.Dict -> shiftl) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "mul"
+     ((\ QS.Dict -> mul) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "bitwise"
+     ((\ QS.Dict -> bitwise) ::
+        QS.Dict (?imp :: ()) ->
+          (P.Bool -> P.Bool -> P.Bool) -> Nat -> Nat -> Nat -> Nat),
+   QS.con
+     "land"
+     ((\ QS.Dict -> land) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "ldiff"
+     ((\ QS.Dict -> ldiff) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "clearbit"
+     ((\ QS.Dict -> clearbit) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "lor"
+     ((\ QS.Dict -> lor) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "setbit"
+     ((\ QS.Dict -> setbit) ::
+        QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "lxor"
+     ((\ QS.Dict -> lxor) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "lnot"
+     ((\ QS.Dict -> lnot) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "lcm"
+     ((\ QS.Dict -> lcm) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "pow"
+     ((\ QS.Dict -> pow) :: QS.Dict (?imp :: ()) -> Nat -> Nat -> Nat),
+   QS.con
+     "square"
+     ((\ QS.Dict -> square) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+   QS.background
+     [QS.con "False" P.False,
+      QS.con "True" P.True,
+      QS.con
+        "Pair2"
+        ((\ QS.Dict -> Pair2) ::
+           QS.Dict
+             (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A,
+              QC.Arbitrary QS.B, F.Enumerable QS.B, P.Ord QS.B, ?imp :: ()) ->
+             QS.A -> QS.B -> Pair QS.A QS.B),
+      QS.con
+        "Nil"
+        ((\ QS.Dict -> Nil) ::
+           QS.Dict
+             (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+             List QS.A),
+      QS.con
+        "Cons"
+        ((\ QS.Dict -> Cons) ::
+           QS.Dict
+             (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+             QS.A -> List QS.A -> List QS.A),
+      QS.con
+        "Nil2" ((\ QS.Dict -> Nil2) :: QS.Dict (?imp :: ()) -> Uint),
+      QS.con
+        "D0" ((\ QS.Dict -> D0) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D1" ((\ QS.Dict -> D1) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D2" ((\ QS.Dict -> D2) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D3" ((\ QS.Dict -> D3) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D4" ((\ QS.Dict -> D4) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D5" ((\ QS.Dict -> D5) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D6" ((\ QS.Dict -> D6) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D7" ((\ QS.Dict -> D7) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D8" ((\ QS.Dict -> D8) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "D9" ((\ QS.Dict -> D9) :: QS.Dict (?imp :: ()) -> Uint -> Uint),
+      QS.con
+        "ReflectT"
+        ((\ QS.Dict -> ReflectT) :: QS.Dict (?imp :: ()) -> Reflect),
+      QS.con
+        "ReflectF"
+        ((\ QS.Dict -> ReflectF) :: QS.Dict (?imp :: ()) -> Reflect),
+      QS.con "O" ((\ QS.Dict -> O) :: QS.Dict (?imp :: ()) -> Nat),
+      QS.con
+        "S" ((\ QS.Dict -> S) :: QS.Dict (?imp :: ()) -> Nat -> Nat),
+      QS.con "E" ((\ QS.Dict -> E) :: QS.Dict (?imp :: ()) -> Tree),
+      QS.con
+        "T0"
+        ((\ QS.Dict -> T0) ::
+           QS.Dict (?imp :: ()) -> Tree -> Nat -> Nat -> Tree -> Tree),
+      QS.con
+        "Nothing"
+        ((\ QS.Dict -> Nothing) ::
+           QS.Dict
+             (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+             Maybe QS.A),
+      QS.con
+        "Just"
+        ((\ QS.Dict -> Just) ::
+           QS.Dict
+             (QC.Arbitrary QS.A, F.Enumerable QS.A, P.Ord QS.A, ?imp :: ()) ->
+             QS.A -> Maybe QS.A),
+      QS.con
+        "Pos" ((\ QS.Dict -> Pos) :: QS.Dict (?imp :: ()) -> Uint -> Int2),
+      QS.con
+        "Neg" ((\ QS.Dict -> Neg) :: QS.Dict (?imp :: ()) -> Uint -> Int2),
+      QS.con
+        "Eq2" ((\ QS.Dict -> Eq2) :: QS.Dict (?imp :: ()) -> Comparison),
+      QS.con
+        "Lt" ((\ QS.Dict -> Lt) :: QS.Dict (?imp :: ()) -> Comparison),
+      QS.con
+        "Gt" ((\ QS.Dict -> Gt) :: QS.Dict (?imp :: ()) -> Comparison),
+      QS.con
+        "CompEqT"
+        ((\ QS.Dict -> CompEqT) :: QS.Dict (?imp :: ()) -> CompareSpecT),
+      QS.con
+        "CompLtT"
+        ((\ QS.Dict -> CompLtT) :: QS.Dict (?imp :: ()) -> CompareSpecT),
+      QS.con
+        "CompGtT"
+        ((\ QS.Dict -> CompGtT) :: QS.Dict (?imp :: ()) -> CompareSpecT)],
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable P.Int)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable P.Rational)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable P.Bool)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary P.Int)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary P.Rational)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary P.Bool)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable P.Int)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary P.Int)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary P.Rational)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary P.Bool)),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (P.Ord QS.A, P.Ord QS.B) QS.:- (P.Ord (Pair QS.A QS.B))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (F.Enumerable QS.A, F.Enumerable QS.B) QS.:-
+          (F.Enumerable (Pair QS.A QS.B))),
+   QS.inst
+     ((QS.Sub QS.Dict) :: (P.Ord QS.A) QS.:- (P.Ord (List QS.A))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (F.Enumerable QS.A) QS.:- (F.Enumerable (List QS.A))),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord Uint)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable Uint)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord Reflect)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable Reflect)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord Nat)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable Nat)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord Tree)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable Tree)),
+   QS.inst
+     ((QS.Sub QS.Dict) :: (P.Ord QS.A) QS.:- (P.Ord (Maybe QS.A))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (F.Enumerable QS.A) QS.:- (F.Enumerable (Maybe QS.A))),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord Int2)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable Int2)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord Comparison)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable Comparison)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (P.Ord CompareSpecT)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (F.Enumerable CompareSpecT)),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (QC.Arbitrary QS.A, QC.Arbitrary QS.B, QC.CoArbitrary QS.A,
+         QC.CoArbitrary QS.B) QS.:-
+          (QC.CoArbitrary (Pair QS.A QS.B))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (T.Typeable QS.A, T.Typeable QS.B) QS.:-
+          (T.Typeable (Pair QS.A QS.B))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (QC.Arbitrary QS.A, QC.CoArbitrary QS.A) QS.:-
+          (QC.CoArbitrary (List QS.A))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (T.Typeable QS.A) QS.:- (T.Typeable (List QS.A))),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary Uint)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable Uint)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary Reflect)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable Reflect)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary Nat)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable Nat)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary Tree)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable Tree)),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (QC.Arbitrary QS.A, QC.CoArbitrary QS.A) QS.:-
+          (QC.CoArbitrary (Maybe QS.A))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (T.Typeable QS.A) QS.:- (T.Typeable (Maybe QS.A))),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary Int2)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable Int2)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary Comparison)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable Comparison)),
+   QS.inst
+     ((QS.Sub QS.Dict) :: () QS.:- (QC.CoArbitrary CompareSpecT)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (T.Typeable CompareSpecT)),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (F.Enumerable QS.A, F.Enumerable QS.B) QS.:-
+          (QC.Arbitrary (Pair QS.A QS.B))),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (F.Enumerable QS.A) QS.:- (QC.Arbitrary (List QS.A))),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary Uint)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary Reflect)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary Nat)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary Tree)),
+   QS.inst
+     ((QS.Sub QS.Dict) ::
+        (F.Enumerable QS.A) QS.:- (QC.Arbitrary (Maybe QS.A))),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary Int2)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary Comparison)),
+   QS.inst ((QS.Sub QS.Dict) :: () QS.:- (QC.Arbitrary CompareSpecT)),
+   QS.inst (\ () -> gen),
+   QS.withMaxTermSize (7),
+   QS.withMaxTestSize (20),
+   QS.withPruningDepth (0)]
