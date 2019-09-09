@@ -3,3 +3,4 @@ _build
 .merlin
 *.hs
 *.smt2
+.temp
