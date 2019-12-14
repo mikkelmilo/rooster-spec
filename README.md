@@ -14,7 +14,7 @@ Prerequisites:
 - stack >= 2.1
 - Z3
 - CoqHammer
-- clone this fork of tip-tools, and follow the installation instructions
+- clone [this](https://github.com/mikkelmilo/tip-tools) fork of tip-tools, and follow the installation instructions
 
 After installing all the prerequisites, in the entry folder of rooster-spec run `make install`.
 
@@ -28,3 +28,5 @@ Then simply execute the command
 `DiscoverLemmas "<somefilename>" func1 func2 func3.`
 
 If it runs too slow, or you want larger, more complex conjectures, you can change the maximal term size (default is 5) with `MaxTermSize <size>`.
+
+see the .v files in theories/ for examples.
