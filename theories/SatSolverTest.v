@@ -346,8 +346,8 @@ Definition nnf_solver (p : form) : bool := solver (nnf p).
 
 Definition neg_interp (V : valuation) (p : form) := negb (interp V p).
 
-(* MaxTermSize 6.
-DiscoverLemmas "treesTest" nnf nnf_solver solver find_valuation interp  nnf.    *)
+MaxTermSize 6.
+(* DiscoverLemmas "treesTest" nnf nnf_solver solver find_valuation interp  nnf.    *)
 
 (* 
 

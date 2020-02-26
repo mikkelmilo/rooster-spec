@@ -1,7 +1,7 @@
 (library
  (name coq_spec)
  (public_name coq-spec.plugin)
- (synopsis "Coq Template Plugin")
+ (synopsis "CoqSpec Plugin for automated theory exploration")
  (flags :standard -w -27 -rectypes)       ; CoqPP codes requires this
  (libraries
    coq.vernac                      ; needed for vernac extend

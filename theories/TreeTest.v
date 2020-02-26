@@ -104,8 +104,8 @@ Fixpoint map_tree {A B : Type} (f : A -> B) (t : tree A) : tree B :=
 MaxTermSize 8.
 MaxTestSize 20.
 
-(* DiscoverLemmas "treesTest" mirror rotate_left rotate_right map_tree.  
- *)
+(* DiscoverLemmas "treesTest" mirror rotate_left rotate_right map_tree.   *)
+
 (* Lemma lemma_1 : 
   forall (x : Type), 
   (mirror (@leaf x)) = (@leaf x).

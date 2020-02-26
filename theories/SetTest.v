@@ -21,15 +21,16 @@ Extract Inlined Constant andb => "(Prelude.&&)".
 Extract Inlined Constant orb => "(Prelude.||)".
 Extract Inlined Constant negb => "Prelude.not".
 
-MaxTermSize 7.
-MaxTestSize 15.
+MaxTermSize 6.
+MaxTestSize 20.
 
 (* Lemma lemma_2 : 
   forall (x : Type), 
   forall (y : x0 y : x, {x0 = y} + {x0 <> y}) (z : x),
   (set_add y z (@nil x)) = (cons z (@nil x)).
   hammer. Qed.
+ *)
 
 
-
-DiscoverLemmas "SetTest" set_add empty_set set_mem set_remove set_inter set_union set_diff set_prod set_map map. *)
+(* DiscoverLemmas "SetTest" set_add empty_set set_mem set_remove set_inter set_union set_diff set_prod set_map map.
+ *)
