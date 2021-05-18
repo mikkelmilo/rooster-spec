@@ -1,9 +1,9 @@
 # Rooster-Spec
 Discover potential laws about your coq code!
 
-Rooster-Spec is a Coq plug-in for automated theory exploration, based on Quick*Spec*. You give Rooster-Spec a set of (computable) functions, and it returns a list of (but unproven) equational conjectures about these functions.
+Rooster-Spec is a Coq plug-in for automated theory exploration, based on Quick*Spec*. You give Rooster-Spec a set of (computable) functions, and it returns a list of (unproven but tested) equational conjectures about these functions.
 
-Note that this plug-in is still in very early development stages! We encourage people to try it out and report any bugs.
+Note that this plug-in is still in beta. I encourage people to try it out and report any bugs.
 
 ## Installation (linux/unix only currently)
 
